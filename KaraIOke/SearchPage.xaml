@@ -1,32 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KaraIOke.MainPage"
+             xmlns:controls="clr-namespace:KaraIOke.Controls"
+             x:Class="KaraIOke.SearchPage"
              BackgroundColor="#121212"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="60"/>
             <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
-        <Label
-            Grid.Row="1"
-            Text="KaraIOke"
-            TextColor="#AAAAAA"
-            FontSize="40"
-            Style="{StaticResource Headline}"
-            SemanticProperties.HeadingLevel="Level1"/>
-
-
         <HorizontalStackLayout
-            Grid.Row="3"
+            Grid.Row="0"
             HorizontalOptions="Center">
 
             <Entry
@@ -39,7 +28,6 @@
 
             <Button
                 x:Name="SearchBtn"
-                Clicked="OnSearchBtnClicked"
                 Text="Szukaj"
                 CornerRadius="0"
                 Padding="0"
@@ -49,16 +37,34 @@
 
         </HorizontalStackLayout>
 
+        <ScrollView Grid.Row="1" WidthRequest="950">
+            <StackLayout>
+        <controls:SearchSongView 
+                SongName="Piosenka 1"/>
+        <controls:SearchSongView 
+                SongName="Piosenka 2"/>
+        <controls:SearchSongView 
+                SongName="Piosenka 3"/>
+        <controls:SearchSongView 
+                SongName="Piosenka 4"/>
+        <controls:SearchSongView 
+                SongName="Piosenka 5"/>
+
+            </StackLayout>
+
+        </ScrollView>
+
         <Button
-            Grid.Row="5"
-            x:Name="GoToPlaylistBtn"
+            Grid.Row="2"
+            x:Name="BackBtn"
+            Clicked="OnBackBtnClicked"
             CornerRadius="0"
             FontSize="32"
-            WidthRequest="400"
-            Text="Playlisty"
-            VerticalOptions="End"
+            WidthRequest="265"
             HeightRequest="60"
-            HorizontalOptions="Center"/>
+            Text="Powrót"
+            Margin="0,0,150,0"
+            HorizontalOptions="End"/>
 
     </Grid>
 </ContentPage>
