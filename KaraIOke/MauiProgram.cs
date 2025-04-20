@@ -1,4 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using KaraIOke.Services.AppEnvironment;
+using KaraIOke.Services.Navigation;
+using KaraIOke.Services.Search;
+using KaraIOke.ViewModels;
+using KaraIOke.Views;
 
 namespace KaraIOke;
 
@@ -12,12 +17,44 @@ public static class MauiProgram
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("Inter.ttf", "Inter");
-			});
+			})
+            .RegisterAppServices()
+            .RegisterViewModels()
+            .RegisterViews();
 
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
 
 		return builder.Build();
+	}
+
+	public static MauiAppBuilder RegisterAppServices(this MauiAppBuilder mauiAppBuilder) {
+		mauiAppBuilder.Services.AddSingleton<NavigationService>();
+		mauiAppBuilder.Services.AddSingleton<AppEnvironmentService>(
+			serviceProvider =>
+			{
+				var aes = new AppEnvironmentService(new SearchMockService(), new SearchService());
+
+				aes.updateDependencies(true); // hardcoded switching mocks for now (surely we will change it in the future :))
+
+				return aes;
+			}
+		);
+
+		return mauiAppBuilder;
+	}
+	public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder) {
+		mauiAppBuilder.Services.AddSingleton<MainViewModel>();
+		mauiAppBuilder.Services.AddSingleton<SearchViewModel>();
+
+		return mauiAppBuilder;
+	}
+
+	public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder) {
+		mauiAppBuilder.Services.AddSingleton<MainView>();
+		mauiAppBuilder.Services.AddTransient<SearchView>();
+
+		return mauiAppBuilder;
 	}
 }

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:KaraIOke.Controls"
-             x:Class="KaraIOke.SearchPage"
+             xmlns:views="clr-namespace:KaraIOke.Views"
+             xmlns:templates="clr-namespace:KaraIOke.Views.Templates"
+             x:Class="KaraIOke.Views.SearchView"
              BackgroundColor="#121212"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
@@ -20,6 +21,7 @@
 
             <Entry
                 x:Name="TextEditor"
+                Text="{Binding SongName}"
                 Placeholder="Szukaj piosenki..."
                 FontSize="32"
                 HorizontalTextAlignment="Center"
@@ -28,6 +30,7 @@
 
             <Button
                 x:Name="SearchBtn"
+                Command="{Binding SearchForSong}"
                 Text="Szukaj"
                 CornerRadius="0"
                 Padding="0"
@@ -37,27 +40,41 @@
 
         </HorizontalStackLayout>
 
-        <ScrollView Grid.Row="1" WidthRequest="950">
+        <CollectionView
+            Grid.Row="1"
+            WidthRequest="950"
+            ItemsSource="{Binding Songs}">
+        
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <templates:SongTemplate />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="TODO: fancy loading animation"/>
+            </CollectionView.EmptyView>
+        </CollectionView>
+        <!-- <ScrollView Grid.Row="1" WidthRequest="950">
             <StackLayout>
-        <controls:SearchSongView 
+        <views:SearchSongView 
                 SongName="Piosenka 1"/>
-        <controls:SearchSongView 
+        <views:SearchSongView 
                 SongName="Piosenka 2"/>
-        <controls:SearchSongView 
+        <views:SearchSongView 
                 SongName="Piosenka 3"/>
-        <controls:SearchSongView 
+        <views:SearchSongView 
                 SongName="Piosenka 4"/>
-        <controls:SearchSongView 
+        <views:SearchSongView 
                 SongName="Piosenka 5"/>
 
             </StackLayout>
 
-        </ScrollView>
+        </ScrollView> -->
 
         <Button
             Grid.Row="2"
             x:Name="BackBtn"
-            Clicked="OnBackBtnClicked"
+            Command ="{Binding GoToMain}"
             CornerRadius="0"
             FontSize="32"
             WidthRequest="265"
