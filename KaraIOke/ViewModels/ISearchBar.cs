@@ -9,10 +9,10 @@ public partial class ISearchBar : INotifyPropertyChanged
 {
     protected readonly NavigationService _navigationService;
     protected readonly AppEnvironmentService _appEnvironmentService;
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-    string songName;
-    public string SongName
+    string songName = "";
+    public string SongName 
     {
         set { SetProperty(ref songName, value); }
         get { return songName; }
@@ -33,7 +33,7 @@ public partial class ISearchBar : INotifyPropertyChanged
 
     public ICommand SearchForSong { private set; get; }
 
-    protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+    protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
     {
         if (Equals(storage, value))
             return false;
@@ -43,11 +43,11 @@ public partial class ISearchBar : INotifyPropertyChanged
         return true;
     }
 
-    protected void UpdateProperty<T>(ref T storage, [CallerMemberName] string propertyName = null)
+    protected void UpdateProperty<T>(ref T storage, [CallerMemberName] string propertyName = "")
     {
         OnPropertyChanged(propertyName);
     }
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

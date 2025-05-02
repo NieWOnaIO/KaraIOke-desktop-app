@@ -47,6 +47,7 @@ public static class MauiProgram
 	public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder) {
 		mauiAppBuilder.Services.AddSingleton<MainViewModel>();
 		mauiAppBuilder.Services.AddSingleton<SearchViewModel>();
+		mauiAppBuilder.Services.AddSingleton<PlayerViewModel>();
 
 		return mauiAppBuilder;
 	}
@@ -54,6 +55,7 @@ public static class MauiProgram
 	public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder) {
 		mauiAppBuilder.Services.AddSingleton<MainView>();
 		mauiAppBuilder.Services.AddTransient<SearchView>();
+		mauiAppBuilder.Services.AddTransient<PlayerView>();
 
 		return mauiAppBuilder;
 	}
