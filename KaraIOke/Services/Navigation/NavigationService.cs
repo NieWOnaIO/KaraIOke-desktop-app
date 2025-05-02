@@ -33,6 +33,13 @@ public class NavigationService {
         await _navigation.PushAsync(searchView);
     }
 
+    public async Task PushPlayer() {
+        initData();
+
+        var playerView = _serviceProvider.GetService<PlayerView>();
+        await _navigation.PushAsync(playerView);
+    }
+
     public async Task PopPage() {
         await _navigation.PopAsync();
     }

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:KaraIOke.Views"
+             xmlns:viewmodels="clr-namespace:KaraIOke.ViewModels"
+             x:Class="KaraIOke.Views.PlayerView"
+             x:DataType="viewmodels:PlayerViewModel"
+             BackgroundColor="#121212"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False">
+
+    <Grid Padding="167,50,125,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+
+        <VerticalStackLayout
+            HorizontalOptions="Center"
+            Grid.Row="0">
+
+        <Label
+            FontSize="96"
+            TextColor="#8561E8"
+            > 
+            <Label.Text>
+La la la la
+            </Label.Text>
+            </Label>
+        <Label
+            FontSize="96"
+            TextColor="#FFFFFF"
+            > 
+            <Label.Text>
+na na na na
+Ooh ooh ooh
+yeah yeah yeah 
+            </Label.Text>
+            </Label>
+        </VerticalStackLayout>
+
+        <Slider
+            Grid.Row="1"
+            Margin="0,0,43,0"
+            Maximum="360"/>
+            <!-- ValueChanged="OnSliderValueChanged" /> -->
+
+        <Grid
+            Grid.Row="2">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="48"/>
+            <ColumnDefinition Width="166"/>
+            <ColumnDefinition Width="48"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+        <Label FontSize="24" Grid.Row="0" Grid.Column="0" Text="Wokal" />
+            
+        <Slider
+            Grid.Row="0"
+            Grid.Column="0"
+            WidthRequest="225"
+            HorizontalOptions="Start"
+            VerticalOptions="Center"
+            Maximum="360"/>
+
+        <Label FontSize="24" Grid.Row="1" Grid.Column="0" Text="Podkład" />
+        <Slider
+            Grid.Row="1"
+            Grid.Column="0"
+            WidthRequest="225"
+            HorizontalOptions="Start"
+            VerticalOptions="Center"
+            Maximum="360"/>
+
+        <ImageButton
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            WidthRequest="48"
+            HeightRequest="48"
+            BackgroundColor="transparent"
+            VerticalOptions="Center"
+            Source="rewind.png"/>
+
+        <ImageButton
+            Grid.RowSpan="2"
+            Grid.Column="2"
+            WidthRequest="70"
+            HeightRequest="70"
+            BackgroundColor="transparent"
+            VerticalOptions="Center"
+            Source="play.png"/>
+
+        <ImageButton
+            Grid.RowSpan="2"
+            Grid.Column="3"
+            WidthRequest="48"
+            HeightRequest="48"
+            BackgroundColor="transparent"
+            VerticalOptions="Center"
+            Source="forward.png"/>
+
+        <Button
+            Grid.RowSpan="2"
+            Grid.Column="4"
+            CornerRadius="0"
+            FontSize="32"
+            WidthRequest="265"
+            HeightRequest="60"
+            VerticalOptions="Center"
+            HorizontalOptions="End"
+            Text="Powrót"
+            Command="{Binding GoBack}"/>
+
+        </Grid>
+    </Grid>
+</ContentPage>

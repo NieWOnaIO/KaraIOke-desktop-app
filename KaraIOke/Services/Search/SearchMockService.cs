@@ -5,7 +5,7 @@ namespace KaraIOke.Services.Search;
 public class SearchMockService : ISearchService
 {
 
-    string _songName;
+    string _songName = "";
 
     public void querySongs(string songName)
     {

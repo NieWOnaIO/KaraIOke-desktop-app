@@ -2,8 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:KaraIOke.Views"
+             xmlns:viewmodels="clr-namespace:KaraIOke.ViewModels"
              xmlns:templates="clr-namespace:KaraIOke.Views.Templates"
              x:Class="KaraIOke.Views.SearchView"
+             x:DataType="viewmodels:SearchViewModel"
              BackgroundColor="#121212"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
@@ -54,22 +56,6 @@
                 <Label Text="TODO: fancy loading animation"/>
             </CollectionView.EmptyView>
         </CollectionView>
-        <!-- <ScrollView Grid.Row="1" WidthRequest="950">
-            <StackLayout>
-        <views:SearchSongView 
-                SongName="Piosenka 1"/>
-        <views:SearchSongView 
-                SongName="Piosenka 2"/>
-        <views:SearchSongView 
-                SongName="Piosenka 3"/>
-        <views:SearchSongView 
-                SongName="Piosenka 4"/>
-        <views:SearchSongView 
-                SongName="Piosenka 5"/>
-
-            </StackLayout>
-
-        </ScrollView> -->
 
         <Button
             Grid.Row="2"
@@ -80,7 +66,7 @@
             WidthRequest="265"
             HeightRequest="60"
             Text="Powrót"
-            Margin="0,0,150,0"
+            Margin="0,0,125,0"
             HorizontalOptions="End"/>
 
     </Grid>

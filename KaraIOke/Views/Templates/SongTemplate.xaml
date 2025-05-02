@@ -13,11 +13,12 @@
     HeightRequest="160">
 
         <Button
-            x:Name="aaa"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             AbsoluteLayout.LayoutFlags="All"
             CornerRadius="0"
             FontSize="32"
+            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=GoToPlayer, x:DataType=viewmodels:SearchViewModel}"
+            CommandParameter="{Binding}"
             Text="{Binding Name}"
             ZIndex="1"/>
 
