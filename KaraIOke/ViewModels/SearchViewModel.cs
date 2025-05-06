@@ -17,7 +17,7 @@ public partial class SearchViewModel : ISearchBar
         );
 
         GoToPlayer = new Command(
-            execute: async(object? song) =>
+            execute: async (object? song) =>
             {
                 await _navigationService.PushPlayer();
             }
@@ -30,5 +30,5 @@ public partial class SearchViewModel : ISearchBar
     }
 
     public ICommand GoToMain { private set; get; }
-    public ICommand GoToPlayer {private set; get; }
+    public ICommand GoToPlayer { private set; get; }
 }

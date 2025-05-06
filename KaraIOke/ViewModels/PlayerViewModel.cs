@@ -7,11 +7,13 @@ public partial class PlayerViewModel
 {
     protected readonly NavigationService _navigationService;
 
-    public PlayerViewModel(IServiceProvider serviceProvider) {
+    public PlayerViewModel(IServiceProvider serviceProvider)
+    {
         _navigationService = serviceProvider.GetService<NavigationService>();
 
         GoBack = new Command(
-            execute: async () => {
+            execute: async () =>
+            {
                 await _navigationService.PopPage();
             }
         );

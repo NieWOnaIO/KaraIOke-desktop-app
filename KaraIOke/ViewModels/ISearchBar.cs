@@ -12,7 +12,7 @@ public partial class ISearchBar : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     string songName = "";
-    public string SongName 
+    public string SongName
     {
         set { SetProperty(ref songName, value); }
         get { return songName; }
@@ -24,7 +24,8 @@ public partial class ISearchBar : INotifyPropertyChanged
         _appEnvironmentService = serviceProvider.GetService<AppEnvironmentService>();
 
         SearchForSong = new Command(
-            execute: async () => {
+            execute: async () =>
+            {
                 _appEnvironmentService.SearchService.querySongs(SongName);
                 await _navigationService.PushSearchSong();
             }

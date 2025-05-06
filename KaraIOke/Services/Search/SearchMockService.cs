@@ -12,10 +12,11 @@ public class SearchMockService : ISearchService
         _songName = songName;
     }
 
-    public IEnumerable<Song> getSongs() {
+    public IEnumerable<Song> getSongs()
+    {
         return Enumerable.Range(1, 10)
             .Select(i => $"{_songName}: Song {i}")
-            .Select(str => new Song {Name = str});
+            .Select(str => new Song { Name = str });
     }
 
 }
