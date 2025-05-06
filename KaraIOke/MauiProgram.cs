@@ -9,54 +9,57 @@ namespace KaraIOke;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("Inter.ttf", "Inter");
-			})
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("Inter.ttf", "Inter");
+            })
             .RegisterAppServices()
             .RegisterViewModels()
             .RegisterViews();
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
-	}
+        return builder.Build();
+    }
 
-	public static MauiAppBuilder RegisterAppServices(this MauiAppBuilder mauiAppBuilder) {
-		mauiAppBuilder.Services.AddSingleton<NavigationService>();
-		mauiAppBuilder.Services.AddSingleton<AppEnvironmentService>(
-			serviceProvider =>
-			{
-				var aes = new AppEnvironmentService(new SearchMockService(), new SearchService());
+    public static MauiAppBuilder RegisterAppServices(this MauiAppBuilder mauiAppBuilder)
+    {
+        mauiAppBuilder.Services.AddSingleton<NavigationService>();
+        mauiAppBuilder.Services.AddSingleton<AppEnvironmentService>(
+            serviceProvider =>
+            {
+                var aes = new AppEnvironmentService(new SearchMockService(), new SearchService());
 
-				aes.updateDependencies(true); // hardcoded switching mocks for now (surely we will change it in the future :))
+                aes.updateDependencies(true); // hardcoded switching mocks for now (surely we will change it in the future :))
 
-				return aes;
-			}
-		);
+                return aes;
+            }
+        );
 
-		return mauiAppBuilder;
-	}
-	public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder) {
-		mauiAppBuilder.Services.AddSingleton<MainViewModel>();
-		mauiAppBuilder.Services.AddSingleton<SearchViewModel>();
-		mauiAppBuilder.Services.AddSingleton<PlayerViewModel>();
+        return mauiAppBuilder;
+    }
+    public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
+    {
+        mauiAppBuilder.Services.AddSingleton<MainViewModel>();
+        mauiAppBuilder.Services.AddSingleton<SearchViewModel>();
+        mauiAppBuilder.Services.AddSingleton<PlayerViewModel>();
 
-		return mauiAppBuilder;
-	}
+        return mauiAppBuilder;
+    }
 
-	public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder) {
-		mauiAppBuilder.Services.AddSingleton<MainView>();
-		mauiAppBuilder.Services.AddTransient<SearchView>();
-		mauiAppBuilder.Services.AddTransient<PlayerView>();
+    public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
+    {
+        mauiAppBuilder.Services.AddSingleton<MainView>();
+        mauiAppBuilder.Services.AddTransient<SearchView>();
+        mauiAppBuilder.Services.AddTransient<PlayerView>();
 
-		return mauiAppBuilder;
-	}
+        return mauiAppBuilder;
+    }
 }

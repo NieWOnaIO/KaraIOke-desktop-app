@@ -4,16 +4,16 @@ namespace KaraIOke;
 
 public partial class App : Application
 {
-	MainView _mainView;
-	public App(IServiceProvider serviceProvider)
-	{
-		InitializeComponent();
+    MainView _mainView;
+    public App(IServiceProvider serviceProvider)
+    {
+        InitializeComponent();
 
-		_mainView = serviceProvider.GetService<MainView>();
-	}
+        _mainView = serviceProvider.GetService<MainView>();
+    }
 
-	protected override Window CreateWindow(IActivationState? activationState)
-	{
-		return new Window(new NavigationPage(_mainView));
-	}
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(new NavigationPage(_mainView));
+    }
 }

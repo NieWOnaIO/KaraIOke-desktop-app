@@ -3,11 +3,13 @@ using KaraIOke.Views;
 
 namespace KaraIOke.Services.AppEnvironment;
 
-public class AppEnvironmentService {
+public class AppEnvironmentService
+{
     private readonly ISearchService _searchService;
     private readonly ISearchService _searchMockService;
 
-    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService) {
+    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService)
+    {
         _searchService = searchService;
         _searchMockService = searchMockService;
     }
@@ -19,7 +21,9 @@ public class AppEnvironmentService {
         if (useMockServices)
         {
             SearchService = _searchMockService;
-        } else {
+        }
+        else
+        {
             SearchService = _searchService;
         }
     }

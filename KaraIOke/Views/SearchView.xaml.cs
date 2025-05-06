@@ -4,11 +4,11 @@ namespace KaraIOke.Views;
 
 public partial class SearchView : ContentPage
 {
-	public SearchView(IServiceProvider serviceProvider)
-	{
-		InitializeComponent();
+    public SearchView(IServiceProvider serviceProvider)
+    {
+        InitializeComponent();
 
-		BindingContext = serviceProvider.GetService<SearchViewModel>();
-	}
+        BindingContext = serviceProvider.GetService<SearchViewModel>();
+    }
 }
 

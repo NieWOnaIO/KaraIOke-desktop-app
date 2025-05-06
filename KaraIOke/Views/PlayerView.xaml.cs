@@ -4,11 +4,11 @@ namespace KaraIOke.Views;
 
 public partial class PlayerView : ContentPage
 {
-	public PlayerView(IServiceProvider serviceProvider)
-	{
-		InitializeComponent();
+    public PlayerView(IServiceProvider serviceProvider)
+    {
+        InitializeComponent();
 
-		BindingContext = serviceProvider.GetService<PlayerViewModel>();
-	}
+        BindingContext = serviceProvider.GetService<PlayerViewModel>();
+    }
 }
 
