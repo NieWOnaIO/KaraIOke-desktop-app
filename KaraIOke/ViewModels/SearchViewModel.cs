@@ -22,6 +22,13 @@ public partial class SearchViewModel : ISearchBar
                 await _navigationService.PushPlayer();
             }
         );
+
+        AddToPlaylist = new Command(
+            execute: async () =>
+            {
+                await _navigationService.PushAdding();
+            }
+        );
     }
 
     public void loadData()
@@ -31,4 +38,5 @@ public partial class SearchViewModel : ISearchBar
 
     public ICommand GoToMain { private set; get; }
     public ICommand GoToPlayer { private set; get; }
+    public ICommand AddToPlaylist { private set; get; }
 }

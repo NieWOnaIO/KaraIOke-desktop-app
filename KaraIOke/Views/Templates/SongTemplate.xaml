@@ -24,6 +24,7 @@
 
         <ImageButton
             Source="plus.png"
+            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=AddToPlaylist, x:DataType=viewmodels:SearchViewModel}"
             AbsoluteLayout.LayoutBounds="1,0,80,80"
             AbsoluteLayout.LayoutFlags="PositionProportional"
             BackgroundColor="#D9D9D9"
