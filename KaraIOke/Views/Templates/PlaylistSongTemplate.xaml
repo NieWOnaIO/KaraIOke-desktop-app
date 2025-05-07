@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:KaraIOke.Models"
+             xmlns:views="clr-namespace:KaraIOke.Views"
+             xmlns:viewmodels="clr-namespace:KaraIOke.ViewModels"
+             x:Class="KaraIOke.Views.Templates.PlaylistSongTemplate"
+             x:DataType="models:Song">
+
+<AbsoluteLayout 
+    Margin="0,10,0,10"
+    WidthRequest="960" 
+    HeightRequest="58">
+
+        <Button
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            CornerRadius="0"
+            FontSize="20"
+            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PlaylistViewModel}}, Path=GoToPlayer, x:DataType=viewmodels:PlaylistViewModel}"
+            CommandParameter="{Binding}"
+            Text="{Binding Name}"
+            ZIndex="1"/>
+
+        <ImageButton
+            Source="delete.png"
+            AbsoluteLayout.LayoutBounds="1,0,60,58"
+            Padding="15"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            BackgroundColor="#D9D9D9"
+            ZIndex="2"/>
+
+</AbsoluteLayout>
+</ContentView>
