@@ -1,3 +1,4 @@
+using KaraIOke.Services.Playlists;
 using KaraIOke.Services.Search;
 using KaraIOke.Views;
 
@@ -15,16 +16,20 @@ public class AppEnvironmentService
     }
 
     public ISearchService SearchService { get; private set; }
+    public IPlaylistService PlaylistService { get; private set; }
 
     public void updateDependencies(bool useMockServices)
     {
         if (useMockServices)
         {
             SearchService = _searchMockService;
-        }
-        else
+            PlaylistService = new PlaylistMockService();
+        } 
+        else 
         {
             SearchService = _searchService;
+            //TODO: implement PlaylistService
+            // PlaylistService = ...
         }
     }
 }
