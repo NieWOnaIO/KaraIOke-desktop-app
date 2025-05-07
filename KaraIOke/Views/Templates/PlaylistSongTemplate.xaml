@@ -7,28 +7,25 @@
              x:Class="KaraIOke.Views.Templates.PlaylistSongTemplate"
              x:DataType="models:Song">
 
-<AbsoluteLayout 
-    Margin="0,10,0,10"
-    WidthRequest="960" 
-    HeightRequest="58">
+    <Grid 
+        Margin="0,10,0,10"
+        WidthRequest="960"
+        HeightRequest="58"
+        ColumnDefinitions="*,60">
 
         <Button
-            AbsoluteLayout.LayoutBounds="0,0,1,1"
-            AbsoluteLayout.LayoutFlags="All"
+            Grid.Column="0"
             CornerRadius="0"
             FontSize="20"
             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PlaylistViewModel}}, Path=GoToPlayer, x:DataType=viewmodels:PlaylistViewModel}"
             CommandParameter="{Binding}"
-            Text="{Binding Name}"
-            ZIndex="1"/>
+            Text="{Binding Name}"/>
 
         <ImageButton
+            Grid.Column="1"
             Source="delete.png"
-            AbsoluteLayout.LayoutBounds="1,0,60,58"
             Padding="15"
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            BackgroundColor="#D9D9D9"
-            ZIndex="2"/>
+            BackgroundColor="#D9D9D9"/>
 
-</AbsoluteLayout>
+    </Grid>
 </ContentView>

@@ -1,6 +1,5 @@
 using KaraIOke.Services.Playlists;
 using KaraIOke.Services.Search;
-using KaraIOke.Views;
 
 namespace KaraIOke.Services.AppEnvironment;
 

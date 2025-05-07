@@ -4,7 +4,6 @@ using KaraIOke.Services.Navigation;
 using System.Windows.Input;
 using KaraIOke.Models;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace KaraIOke.ViewModels;
 
@@ -33,7 +32,6 @@ public partial class PlaylistViewModel : INotifyPropertyChanged
         GoToMain = new Command(
             execute: async () =>
             {
-                Debug.WriteLine("GO TO MAIN");
                 await _navigationService.PopPage();
             }
         );
@@ -41,16 +39,12 @@ public partial class PlaylistViewModel : INotifyPropertyChanged
         GoToPlayer = new Command(
             execute: async(object? song) =>
             {
-                Debug.WriteLine("GO TO PLAYER");
                 await _navigationService.PushPlayer();
             }
         );
-
-        //TODO: delete after implementing PlaylistList
-        LoadPlaylist("DefaultPlaylist");
     }
 
-    public void LoadPlaylist(string playlistName)
+    public void loadData(string playlistName)
     {
         Playlist = _appEnvironmentService.PlaylistService.GetPlaylist(playlistName);
 
