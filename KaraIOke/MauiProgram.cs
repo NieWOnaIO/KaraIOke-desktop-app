@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using KaraIOke.Services.AppEnvironment;
 using KaraIOke.Services.Navigation;
 using KaraIOke.Services.Search;
@@ -50,6 +50,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<MainViewModel>();
         mauiAppBuilder.Services.AddSingleton<SearchViewModel>();
         mauiAppBuilder.Services.AddSingleton<PlayerViewModel>();
+		mauiAppBuilder.Services.AddSingleton<PlaylistViewModel>();
 
         return mauiAppBuilder;
     }
@@ -59,6 +60,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<MainView>();
         mauiAppBuilder.Services.AddTransient<SearchView>();
         mauiAppBuilder.Services.AddTransient<PlayerView>();
+		mauiAppBuilder.Services.AddTransient<PlaylistView>();
 
         return mauiAppBuilder;
     }
