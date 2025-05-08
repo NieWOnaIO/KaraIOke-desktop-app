@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Windows.Input;
-using System.Collections.ObjectModel;   
+using System.Collections.ObjectModel;
 using KaraIOke.Services.AppEnvironment;
 using KaraIOke.Services.Navigation;
 

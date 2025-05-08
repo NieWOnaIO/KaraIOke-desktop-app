@@ -4,7 +4,7 @@ namespace KaraIOke.ViewModels;
 
 public class PlaylistListViewModel : AbstractPlaylistViewModel
 {
-    public ICommand GoToPlaylist {private set; get; }
+    public ICommand GoToPlaylist { private set; get; }
 
     public ICommand DeletePlaylist { private set; get; }
 
