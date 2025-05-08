@@ -17,7 +17,7 @@
             Grid.Column="0"
             CornerRadius="0"
             FontSize="20"
-            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PlaylistViewModel}}, Path=GoToPlayer, x:DataType=viewmodels:PlaylistViewModel}"
+            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PlaylistDetailsViewModel}}, Path=GoToPlayer, x:DataType=viewmodels:PlaylistDetailsViewModel}"
             CommandParameter="{Binding}"
             Text="{Binding Name}"/>
 
