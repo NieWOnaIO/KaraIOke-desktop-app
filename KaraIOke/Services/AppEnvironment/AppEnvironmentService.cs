@@ -1,5 +1,5 @@
+using KaraIOke.Services.Playlists;
 using KaraIOke.Services.Search;
-using KaraIOke.Views;
 
 namespace KaraIOke.Services.AppEnvironment;
 
@@ -8,23 +8,32 @@ public class AppEnvironmentService
     private readonly ISearchService _searchService;
     private readonly ISearchService _searchMockService;
 
-    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService)
+    private readonly IPlaylistService _playlistService;
+    private readonly IPlaylistService _playlistMockService;
+
+    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService, IPlaylistService playlistMockService, IPlaylistService playlistService)
     {
         _searchService = searchService;
         _searchMockService = searchMockService;
+
+        _playlistService = playlistService;
+        _playlistMockService = playlistMockService;
     }
 
     public ISearchService SearchService { get; private set; }
+    public IPlaylistService PlaylistService { get; private set; }
 
     public void updateDependencies(bool useMockServices)
     {
         if (useMockServices)
         {
             SearchService = _searchMockService;
+            PlaylistService = _playlistMockService;
         }
         else
         {
             SearchService = _searchService;
+            PlaylistService = _playlistService;
         }
     }
 }

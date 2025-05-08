@@ -56,6 +56,7 @@
         <Button
             Grid.Row="5"
             x:Name="GoToPlaylistBtn"
+            Command="{Binding GoToPlaylistList}"
             CornerRadius="0"
             FontSize="32"
             WidthRequest="400"

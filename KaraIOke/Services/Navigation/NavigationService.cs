@@ -27,7 +27,6 @@ public class NavigationService
         initData();
 
         _serviceProvider.GetService<SearchViewModel>().loadData();
-
         if (_navigation.NavigationStack.Last() is SearchView)
         {
             return;
@@ -48,5 +47,35 @@ public class NavigationService
     public async Task PopPage()
     {
         await _navigation.PopAsync();
+    }
+
+    public async Task PushPlaylist(string playlistName)
+    {
+        initData();
+
+        _serviceProvider.GetService<PlaylistDetailsViewModel>().loadData(playlistName);
+
+        var playlistView = _serviceProvider.GetService<PlaylistDetailsView>();
+        await _navigation.PushAsync(playlistView);
+    }
+
+    public async Task PushPlaylistList()
+    {
+        initData();
+
+        _serviceProvider.GetService<PlaylistsViewModel>().loadData();
+
+        var playlistListView = _serviceProvider.GetService<PlaylistsView>();
+        await _navigation.PushAsync(playlistListView);
+    }
+
+    public async Task PushAdding()
+    {
+        initData();
+
+        _serviceProvider.GetService<AddingViewModel>().loadData();
+
+        var addingView = _serviceProvider.GetService<AddingView>();
+        await _navigation.PushAsync(addingView);
     }
 }

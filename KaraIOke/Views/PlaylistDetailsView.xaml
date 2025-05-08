@@ -4,60 +4,30 @@
              xmlns:views="clr-namespace:KaraIOke.Views"
              xmlns:viewmodels="clr-namespace:KaraIOke.ViewModels"
              xmlns:templates="clr-namespace:KaraIOke.Views.Templates"
-             x:Class="KaraIOke.Views.SearchView"
-             x:DataType="viewmodels:SearchViewModel"
+             x:Class="KaraIOke.Views.PlaylistDetailsView"
+             x:DataType="viewmodels:PlaylistDetailsViewModel"
              BackgroundColor="#121212"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
-
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
-        <HorizontalStackLayout
-            Grid.Row="0"
-            HorizontalOptions="Center">
-
-            <Entry
-                x:Name="TextEditor"
-                Text="{Binding SongName}"
-                Placeholder="Szukaj piosenki..."
-                FontSize="32"
-                HorizontalTextAlignment="Center"
-                WidthRequest="472"
-                HeightRequest="60"/>
-
-            <Button
-                x:Name="SearchBtn"
-                Command="{Binding SearchForSong}"
-                Text="Szukaj"
-                CornerRadius="0"
-                Padding="0"
-                FontSize="32"
-                WidthRequest="168"
-                HeightRequest="60"/>
-
-        </HorizontalStackLayout>
-
         <CollectionView
             Grid.Row="1"
-            WidthRequest="950"
+            WidthRequest="960"
             ItemsSource="{Binding Songs}">
         
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <templates:SongTemplate />
+                    <templates:PlaylistSongTemplate />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-                <!-- TODO: better label -->
-                <Label Text="No songs"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       FontSize="64"/>
+                <Label Text="TODO: fancy loading animation"/>
             </CollectionView.EmptyView>
         </CollectionView>
 
@@ -74,4 +44,5 @@
             HorizontalOptions="End"/>
 
     </Grid>
+
 </ContentPage>

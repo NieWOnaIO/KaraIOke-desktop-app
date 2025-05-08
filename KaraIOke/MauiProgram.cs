@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using KaraIOke.Services.AppEnvironment;
 using KaraIOke.Services.Navigation;
 using KaraIOke.Services.Search;
 using KaraIOke.ViewModels;
 using KaraIOke.Views;
+using KaraIOke.Services.Playlists;
 
 namespace KaraIOke;
 
@@ -35,7 +36,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<AppEnvironmentService>(
             serviceProvider =>
             {
-                var aes = new AppEnvironmentService(new SearchMockService(), new SearchService());
+                var aes = new AppEnvironmentService(new SearchMockService(), new SearchService(), new PlaylistMockService(), new PlaylistService());
 
                 aes.updateDependencies(true); // hardcoded switching mocks for now (surely we will change it in the future :))
 
@@ -50,6 +51,9 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<MainViewModel>();
         mauiAppBuilder.Services.AddSingleton<SearchViewModel>();
         mauiAppBuilder.Services.AddSingleton<PlayerViewModel>();
+        mauiAppBuilder.Services.AddSingleton<PlaylistDetailsViewModel>();
+        mauiAppBuilder.Services.AddSingleton<PlaylistsViewModel>();
+        mauiAppBuilder.Services.AddSingleton<AddingViewModel>();
 
         return mauiAppBuilder;
     }
@@ -59,6 +63,9 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<MainView>();
         mauiAppBuilder.Services.AddTransient<SearchView>();
         mauiAppBuilder.Services.AddTransient<PlayerView>();
+        mauiAppBuilder.Services.AddTransient<PlaylistDetailsView>();
+        mauiAppBuilder.Services.AddTransient<PlaylistsView>();
+        mauiAppBuilder.Services.AddTransient<AddingView>();
 
         return mauiAppBuilder;
     }
