@@ -1,4 +1,4 @@
-using KaraIOke.Models.Song;
+using KaraIOke.Models;
 
 namespace KaraIOke.Services.Search;
 

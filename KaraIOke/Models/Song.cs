@@ -1,4 +1,4 @@
-namespace KaraIOke.Models.Song;
+namespace KaraIOke.Models;
 
 public class Song : BindableObject
 {
