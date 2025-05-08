@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using KaraIOke.Models;
 
 namespace KaraIOke.ViewModels;
 
@@ -19,21 +21,24 @@ public partial class SearchViewModel : ISearchBar
         GoToPlayer = new Command(
             execute: async (object? song) =>
             {
+                _appEnvironmentService.SearchService.queryDownload((Song)song);
                 await _navigationService.PushPlayer();
             }
         );
 
         AddToPlaylist = new Command(
-            execute: async () =>
+            execute: async (object? song) =>
             {
+                _appEnvironmentService.SearchService.queryDownload((Song)song);
                 await _navigationService.PushAdding();
             }
         );
     }
 
-    public void loadData()
+    public async Task loadData()
     {
-        Songs = _appEnvironmentService.SearchService.getSongs();
+        Songs = Enumerable.Empty<Song>();
+        Songs = await _appEnvironmentService.SearchService.getSongs();
     }
 
     public ICommand GoToMain { private set; get; }

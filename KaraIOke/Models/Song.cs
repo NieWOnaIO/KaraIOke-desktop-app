@@ -2,5 +2,6 @@ namespace KaraIOke.Models;
 
 public class Song : BindableObject
 {
-    public string Name { get; set; }
+    public string title { get; set; }
+    public string url { get; set; }
 }
