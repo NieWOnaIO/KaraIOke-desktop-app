@@ -1,9 +1,10 @@
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using KaraIOke.Services.AppEnvironment;
 using KaraIOke.Services.Navigation;
 using KaraIOke.Services.Search;
 using KaraIOke.ViewModels;
 using KaraIOke.Views;
+using KaraIOke.Services.Playlists;
 
 namespace KaraIOke;
 
@@ -35,7 +36,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<AppEnvironmentService>(
             serviceProvider =>
             {
-                var aes = new AppEnvironmentService(new SearchMockService(), new SearchService());
+                var aes = new AppEnvironmentService(new SearchMockService(), new SearchService(), new PlaylistMockService(), new PlaylistService());
 
                 aes.updateDependencies(true); // hardcoded switching mocks for now (surely we will change it in the future :))
 
