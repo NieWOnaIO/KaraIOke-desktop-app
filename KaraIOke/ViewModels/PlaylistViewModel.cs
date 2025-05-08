@@ -16,6 +16,7 @@ public partial class PlaylistViewModel : INotifyPropertyChanged
 
     public ICommand GoToMain { private set; get; }
     public ICommand GoToPlayer {private set; get; }
+    public ICommand DeleteSong { private set; get; }
 
     public Playlist? Playlist { get; private set; }
 
@@ -42,6 +43,21 @@ public partial class PlaylistViewModel : INotifyPropertyChanged
                 await _navigationService.PushPlayer();
             }
         );
+
+        DeleteSong = new Command<Song>(
+            execute: async (song) =>
+            {
+                if (song != null)
+                {
+                    await Task.Run(() =>
+                    {
+                        _appEnvironmentService.PlaylistService.DeleteSong(Playlist?.Name, song);
+                        loadData(Playlist?.Name);
+                    });
+
+                }
+            }
+        );
     }
 
     public void loadData(string playlistName)
@@ -49,6 +65,7 @@ public partial class PlaylistViewModel : INotifyPropertyChanged
         Playlist = _appEnvironmentService.PlaylistService.GetPlaylist(playlistName);
 
         OnPropertyChanged(nameof(Playlist));
+        OnPropertyChanged(nameof(Songs));
     }
 
     protected void OnPropertyChanged(string propertyName) =>

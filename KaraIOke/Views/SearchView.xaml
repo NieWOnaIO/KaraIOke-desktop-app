@@ -53,7 +53,12 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-                <Label Text="TODO: fancy loading animation"/>
+                <!-- <Label Text="TODO: fancy loading animation"/> -->
+                <!-- TODO: better label -->
+                <Label Text="No songs"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontSize="64"/>
             </CollectionView.EmptyView>
         </CollectionView>
 

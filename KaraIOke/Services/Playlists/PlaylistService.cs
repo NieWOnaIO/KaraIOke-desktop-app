@@ -7,15 +7,21 @@ public class PlaylistService : IPlaylistService
 {
     public Playlist GetPlaylist(string playlistName)
     {
-        //TODO : Implement the logic to get the playlist 
-        ObservableCollection<Song> playlist = new ObservableCollection<Song>();
-        return new Playlist(playlistName, playlist);
+        throw new NotImplementedException();
     }
 
     public ObservableCollection<string> GetAllPlaylistsNames()
     {
-        //TODO : Implement the logic to get all playlist names
-        ObservableCollection<string> names = new ObservableCollection<string>();
-        return names;
+        throw new NotImplementedException();
+    }
+
+    public void DeletePlaylist(string playlistName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DeleteSong(string playlistName, Song song)
+    {
+        throw new NotImplementedException();
     }
 }

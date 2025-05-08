@@ -6,6 +6,8 @@ public class PlaylistListViewModel : AbstractPlaylistViewModel
 {
     public ICommand GoToPlaylist {private set; get; }
 
+    public ICommand DeletePlaylist { private set; get; }
+
 
     public PlaylistListViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
     {
@@ -15,6 +17,20 @@ public class PlaylistListViewModel : AbstractPlaylistViewModel
                 if (!string.IsNullOrEmpty(playlistName))
                 {
                     await _navigationService.PushPlaylist(playlistName);
+                }
+            }
+        );
+
+        DeletePlaylist = new Command<string>(
+            execute: async (playlistName) =>
+            {
+                if (!string.IsNullOrEmpty(playlistName))
+                {
+                    await Task.Run(() =>
+                    {
+                        _appEnvironmentService.PlaylistService.DeletePlaylist(playlistName);
+                        loadData();
+                    });
                 }
             }
         );
