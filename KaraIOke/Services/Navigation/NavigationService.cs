@@ -28,11 +28,6 @@ public class NavigationService
 
         _serviceProvider.GetService<SearchViewModel>().loadData();
 
-        if (_navigation.NavigationStack.Last() is SearchView)
-        {
-            return;
-        }
-
         var searchView = _serviceProvider.GetService<SearchView>();
         await _navigation.PushAsync(searchView);
     }
@@ -56,11 +51,6 @@ public class NavigationService
 
         _serviceProvider.GetService<PlaylistViewModel>().loadData(playlistName);
 
-        if (_navigation.NavigationStack.Last() is PlaylistView)
-        {
-            return;
-        }
-
         var playlistView = _serviceProvider.GetService<PlaylistView>();
         await _navigation.PushAsync(playlistView);
     }
@@ -70,11 +60,6 @@ public class NavigationService
         initData();
 
         _serviceProvider.GetService<PlaylistListViewModel>().loadData();
-
-        if (_navigation.NavigationStack.Last() is PlaylistListView)
-        {
-            return;
-        }
 
         var playlistListView = _serviceProvider.GetService<PlaylistListView>();
         await _navigation.PushAsync(playlistListView);
