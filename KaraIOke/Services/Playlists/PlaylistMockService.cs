@@ -12,4 +12,12 @@ public class PlaylistMockService : IPlaylistService
             .ToList();
         return new Playlist(playlistName, new ObservableCollection<Song>(songs));
     }
+
+    public ObservableCollection<string> GetAllPlaylistsNames()
+    {
+        var names = Enumerable.Range(1, 5)
+            .Select(i => $"Mock playlist name {i}")
+            .ToList();
+        return new ObservableCollection<string>(names);
+    }
 }
