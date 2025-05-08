@@ -5,7 +5,7 @@ namespace KaraIOke.Services.Playlists;
 
 public class PlaylistMockService : IPlaylistService
 {
-    private Dictionary<string, List<Song>> playlists = new Dictionary<string, List<Song>>();
+    private Dictionary<string, Playlist> playlists = new Dictionary<string, Playlist>();
 
     public PlaylistMockService()
     {
@@ -15,13 +15,12 @@ public class PlaylistMockService : IPlaylistService
             var songs = Enumerable.Range(1, 5)
                 .Select(i => new Song { Name = $"Mock song {i}" })
                 .ToList();
-            playlists.Add(playlistName, songs);
+            playlists.Add(playlistName, new Playlist(playlistName, new ObservableCollection<Song>(songs)));
         }
     }
     public Playlist GetPlaylist(string playlistName)
     {
-        var songs = playlists[playlistName];
-        return new Playlist(playlistName, new ObservableCollection<Song>(songs));
+        return playlists[playlistName];
     }
 
     public ObservableCollection<string> GetAllPlaylistsNames()
@@ -37,7 +36,8 @@ public class PlaylistMockService : IPlaylistService
 
     public void DeleteSong(string playlistName, Song song)
     {
-        var songs = playlists[playlistName];
+        Playlist playlist = playlists[playlistName];
+        ObservableCollection<Song> songs = playlist.Songs;
         songs.Remove(song);
     }
 }

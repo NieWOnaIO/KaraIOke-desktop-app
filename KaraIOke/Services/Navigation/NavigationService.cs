@@ -75,10 +75,6 @@ public class NavigationService
         initData();
 
         _serviceProvider.GetService<AddingViewModel>().loadData();
-        if (_navigation.NavigationStack.Last() is AddingView)
-        {
-            return;
-        }
 
         var addingView = _serviceProvider.GetService<AddingView>();
         await _navigation.PushAsync(addingView);
