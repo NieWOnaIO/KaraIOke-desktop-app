@@ -8,10 +8,16 @@ public class AppEnvironmentService
     private readonly ISearchService _searchService;
     private readonly ISearchService _searchMockService;
 
-    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService)
+    private readonly IPlaylistService _playlistService;
+    private readonly IPlaylistService _playlistMockService;
+
+    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService, IPlaylistService playlistMockService, IPlaylistService playlistService)
     {
         _searchService = searchService;
         _searchMockService = searchMockService;
+
+        _playlistService = playlistService;
+        _playlistMockService = playlistMockService;
     }
 
     public ISearchService SearchService { get; private set; }
@@ -22,13 +28,12 @@ public class AppEnvironmentService
         if (useMockServices)
         {
             SearchService = _searchMockService;
-            PlaylistService = new PlaylistMockService();
+            PlaylistService = _playlistMockService;
         }
         else
         {
             SearchService = _searchService;
-            //TODO: implement PlaylistService
-            // PlaylistService = ...
+            PlaylistService = _playlistService;
         }
     }
 }
