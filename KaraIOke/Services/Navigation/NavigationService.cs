@@ -27,7 +27,7 @@ public class NavigationService
         initData();
 
         _serviceProvider.GetService<SearchViewModel>().loadData();
-        if (_navigation.NavigationStack.Last() is AddingView)
+        if (_navigation.NavigationStack.Last() is SearchView)
         {
             return;
         }
