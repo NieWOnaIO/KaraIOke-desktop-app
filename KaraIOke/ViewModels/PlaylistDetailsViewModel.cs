@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace KaraIOke.ViewModels;
 
-public partial class PlaylistViewModel : INotifyPropertyChanged
+public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
 {
     protected readonly NavigationService _navigationService;
     protected readonly AppEnvironmentService _appEnvironmentService;
@@ -25,7 +25,7 @@ public partial class PlaylistViewModel : INotifyPropertyChanged
         get => Playlist?.Songs ?? new ObservableCollection<Song>();
     }
 
-    public PlaylistViewModel(IServiceProvider serviceProvider)
+    public PlaylistDetailsViewModel(IServiceProvider serviceProvider)
     {
         _navigationService = serviceProvider.GetService<NavigationService>() ?? throw new InvalidOperationException("NavigationService is not registered.");
         _appEnvironmentService = serviceProvider.GetService<AppEnvironmentService>() ?? throw new InvalidOperationException("AppEnvironmentService is not registered.");

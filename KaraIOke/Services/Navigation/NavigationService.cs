@@ -54,14 +54,9 @@ public class NavigationService
     {
         initData();
 
-        _serviceProvider.GetService<PlaylistViewModel>().loadData(playlistName);
+        _serviceProvider.GetService<PlaylistDetailsViewModel>().loadData(playlistName);
 
-        if (_navigation.NavigationStack.Last() is PlaylistView)
-        {
-            return;
-        }
-
-        var playlistView = _serviceProvider.GetService<PlaylistView>();
+        var playlistView = _serviceProvider.GetService<PlaylistDetailsView>();
         await _navigation.PushAsync(playlistView);
     }
 
@@ -69,14 +64,9 @@ public class NavigationService
     {
         initData();
 
-        _serviceProvider.GetService<PlaylistListViewModel>().loadData();
+        _serviceProvider.GetService<PlaylistsViewModel>().loadData();
 
-        if (_navigation.NavigationStack.Last() is PlaylistListView)
-        {
-            return;
-        }
-
-        var playlistListView = _serviceProvider.GetService<PlaylistListView>();
+        var playlistListView = _serviceProvider.GetService<PlaylistsView>();
         await _navigation.PushAsync(playlistListView);
     }
 
