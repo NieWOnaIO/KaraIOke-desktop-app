@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Windows.Input;
-using System.Collections.ObjectModel;   
+using System.Collections.ObjectModel;
 using KaraIOke.Services.AppEnvironment;
 using KaraIOke.Services.Navigation;
 
@@ -14,7 +14,7 @@ public class PlaylistListViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public ICommand GoToMain { private set; get; }
-    public ICommand GoToPlaylist {private set; get; }
+    public ICommand GoToPlaylist { private set; get; }
 
     public ObservableCollection<string> PlaylistsNames { get; private set; }
 

@@ -2,7 +2,7 @@ namespace KaraIOke.Views.Templates;
 
 public partial class PlaylistTemplate
 {
-    public PlaylistTemplate() 
+    public PlaylistTemplate()
     {
         InitializeComponent();
     }

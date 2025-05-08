@@ -6,8 +6,8 @@ public partial class MainViewModel : ISearchBar
 {
     public ICommand GoToPlaylistList { private set; get; }
 
-    public MainViewModel(IServiceProvider serviceProvider) : base(serviceProvider) 
-    { 
+    public MainViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
         GoToPlaylistList = new Command(
             execute: async () =>
             {

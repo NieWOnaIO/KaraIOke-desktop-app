@@ -15,7 +15,7 @@ public partial class PlaylistViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public ICommand GoToMain { private set; get; }
-    public ICommand GoToPlayer {private set; get; }
+    public ICommand GoToPlayer { private set; get; }
 
     public Playlist? Playlist { get; private set; }
 
@@ -37,7 +37,7 @@ public partial class PlaylistViewModel : INotifyPropertyChanged
         );
 
         GoToPlayer = new Command(
-            execute: async(object? song) =>
+            execute: async (object? song) =>
             {
                 await _navigationService.PushPlayer();
             }

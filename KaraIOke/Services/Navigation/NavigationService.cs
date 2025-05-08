@@ -49,14 +49,15 @@ public class NavigationService
     {
         await _navigation.PopAsync();
     }
-    
-    public async Task PushPlaylist(string playlistName) 
+
+    public async Task PushPlaylist(string playlistName)
     {
         initData();
 
         _serviceProvider.GetService<PlaylistViewModel>().loadData(playlistName);
 
-        if (_navigation.NavigationStack.Last() is PlaylistView) {
+        if (_navigation.NavigationStack.Last() is PlaylistView)
+        {
             return;
         }
 
