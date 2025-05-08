@@ -24,6 +24,8 @@
         <ImageButton
             Grid.Column="1"
             Source="delete.png"
+            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PlaylistDetailsViewModel}}, Path=DeleteSong, x:DataType=viewmodels:PlaylistDetailsViewModel}"
+            CommandParameter="{Binding}"
             Padding="15"
             BackgroundColor="#D9D9D9"/>
 

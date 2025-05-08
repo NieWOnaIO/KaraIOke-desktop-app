@@ -53,6 +53,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<PlayerViewModel>();
         mauiAppBuilder.Services.AddSingleton<PlaylistDetailsViewModel>();
         mauiAppBuilder.Services.AddSingleton<PlaylistsViewModel>();
+        mauiAppBuilder.Services.AddSingleton<AddingViewModel>();
 
         return mauiAppBuilder;
     }
@@ -64,6 +65,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<PlayerView>();
         mauiAppBuilder.Services.AddTransient<PlaylistDetailsView>();
         mauiAppBuilder.Services.AddTransient<PlaylistsView>();
+        mauiAppBuilder.Services.AddTransient<AddingView>();
 
         return mauiAppBuilder;
     }

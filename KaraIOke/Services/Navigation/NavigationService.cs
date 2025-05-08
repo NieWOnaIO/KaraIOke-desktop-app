@@ -68,4 +68,14 @@ public class NavigationService
         var playlistListView = _serviceProvider.GetService<PlaylistsView>();
         await _navigation.PushAsync(playlistListView);
     }
+
+    public async Task PushAdding()
+    {
+        initData();
+
+        _serviceProvider.GetService<AddingViewModel>().loadData();
+
+        var addingView = _serviceProvider.GetService<AddingView>();
+        await _navigation.PushAsync(addingView);
+    }
 }
