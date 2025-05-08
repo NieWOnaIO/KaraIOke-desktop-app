@@ -18,7 +18,7 @@
 
         <CollectionView
             Grid.Row="1"
-            WidthRequest="960"
+            WidthRequest="1010"
             ItemsSource="{Binding Songs}">
         
             <CollectionView.ItemTemplate>

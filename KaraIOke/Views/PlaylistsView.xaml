@@ -19,7 +19,7 @@
 
         <CollectionView
             Grid.Row="1"
-            WidthRequest="458"
+            WidthRequest="508"
             ItemsSource="{Binding PlaylistsNames}">
         
             <CollectionView.ItemTemplate>
