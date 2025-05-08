@@ -2,6 +2,7 @@ using KaraIOke.Models;
 
 namespace KaraIOke.Services.Playlists;
 
-public interface IPlaylistService {
+public interface IPlaylistService
+{
     Playlist GetPlaylist(string playlistName);
 }

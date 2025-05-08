@@ -23,8 +23,8 @@ public class AppEnvironmentService
         {
             SearchService = _searchMockService;
             PlaylistService = new PlaylistMockService();
-        } 
-        else 
+        }
+        else
         {
             SearchService = _searchService;
             //TODO: implement PlaylistService
