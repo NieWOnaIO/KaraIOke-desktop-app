@@ -27,6 +27,10 @@ public class NavigationService
         initData();
 
         _serviceProvider.GetService<SearchViewModel>().loadData();
+        if (_navigation.NavigationStack.Last() is AddingView)
+        {
+            return;
+        }
 
         var searchView = _serviceProvider.GetService<SearchView>();
         await _navigation.PushAsync(searchView);
