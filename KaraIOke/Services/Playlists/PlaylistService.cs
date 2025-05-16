@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
-using KaraIOke.Models;
 using System.Text.Json;
+using KaraIOke.Models;
 using Microsoft.Maui.Storage;
 
 namespace KaraIOke.Services.Playlists;
@@ -20,56 +20,46 @@ public class PlaylistService : IPlaylistService
         LoadPlaylists();
     }
 
-
-
     private void EnsureJsonFileExists()
-{
-    
-    if (!File.Exists(FilePath))
     {
-        var emptyData = new Dictionary<string, List<Song>>();
-        var json = JsonSerializer.Serialize(emptyData, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(FilePath, json);
+        if (!File.Exists(FilePath))
+        {
+            var emptyData = new Dictionary<string, List<Song>>();
+            var json = JsonSerializer.Serialize(
+                emptyData,
+                new JsonSerializerOptions { WriteIndented = true }
+            );
+            File.WriteAllText(FilePath, json);
+        }
     }
-}
-
-
-
-
 
     private void LoadPlaylists()
     {
-
         var json = File.ReadAllText(FilePath);
         var dict = JsonSerializer.Deserialize<Dictionary<string, List<Song>>>(json) ?? new();
 
-        _playlists = dict.Select(entry =>
-            new Playlist(entry.Key, new ObservableCollection<Song>(entry.Value))
-        ).ToList();
+        _playlists = dict.Select(entry => new Playlist(
+                entry.Key,
+                new ObservableCollection<Song>(entry.Value)
+            ))
+            .ToList();
     }
-
-
-
 
     private void SavePlaylists()
     {
-        var dict = _playlists.ToDictionary(
-            p => p.Name,
-            p => p.Songs.ToList()
+        var dict = _playlists.ToDictionary(p => p.Name, p => p.Songs.ToList());
+
+        var json = JsonSerializer.Serialize(
+            dict,
+            new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            }
         );
-
-
-        var json = JsonSerializer.Serialize(dict, new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        });
 
         File.WriteAllText(FilePath, json);
     }
-
-
-
 
     public Playlist GetPlaylist(string playlistName)
     {
@@ -80,9 +70,6 @@ public class PlaylistService : IPlaylistService
 
         return playlist;
     }
-
-
-
 
     public ObservableCollection<string> GetAllPlaylistsNames()
     {
@@ -98,8 +85,6 @@ public class PlaylistService : IPlaylistService
         SavePlaylists();
     }
 
-
-
     public void DeletePlaylist(string playlistName)
     {
         var playlist = _playlists.FirstOrDefault(p => p.Name == playlistName);
@@ -111,8 +96,6 @@ public class PlaylistService : IPlaylistService
         SavePlaylists();
     }
 
-
-
     public void DeleteSong(string playlistName, Song song)
     {
         var playlist = _playlists.FirstOrDefault(p => p.Name == playlistName);
@@ -121,13 +104,13 @@ public class PlaylistService : IPlaylistService
 
         var existingSong = playlist.Songs.FirstOrDefault(s => s.hash == song.hash);
         if (existingSong == null)
-            throw new ArgumentException($"Song with hash '{song.hash}' not found in playlist '{playlistName}'.");
+            throw new ArgumentException(
+                $"Song with hash '{song.hash}' not found in playlist '{playlistName}'."
+            );
 
         playlist.Songs.Remove(existingSong);
         SavePlaylists();
     }
-
-
 
     public void AddSong(string playlistName, Song song)
     {
@@ -141,5 +124,4 @@ public class PlaylistService : IPlaylistService
         playlist.Songs.Add(song);
         SavePlaylists();
     }
-
 }
