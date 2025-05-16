@@ -5,6 +5,7 @@ namespace KaraIOke.Services.Search;
 public interface ISearchService
 {
     void querySongs(string songName);
+    void queryDownload(Song song);
 
-    IEnumerable<Song> getSongs();
+    Task<IEnumerable<Song>> getSongs();
 }
