@@ -13,7 +13,7 @@ public class PlaylistMockService : IPlaylistService
         {
             string playlistName = $"Mock playlist {i}";
             var songs = Enumerable.Range(1, 5)
-                .Select(i => new Song { title = $"Mock song {i}", url="" })
+                .Select(i => new Song { title = $"Mock song {i}", url = "" })
                 .ToList();
             playlists.Add(playlistName, new Playlist(playlistName, new ObservableCollection<Song>(songs)));
         }

@@ -12,13 +12,13 @@ public class SearchMockService : ISearchService
         _songName = songName;
     }
 
-    public void queryDownload(Song song) {}
+    public void queryDownload(Song song) { }
 
     public async Task<IEnumerable<Song>> getSongs()
     {
         return Enumerable.Range(1, 10)
             .Select(i => $"{_songName}: Song {i}")
-            .Select(str => new Song { title = str, url = ""});
+            .Select(str => new Song { title = str, url = "" });
     }
 
 }

@@ -19,11 +19,12 @@ public class SearchService : ISearchService
     public void querySongs(string songName)
     {
         _searchTask = _client.GetAsync($"/v1/search/{songName}")
-            .ContinueWith(async responseTask => {
+            .ContinueWith(async responseTask =>
+            {
                 var response = await responseTask;
                 var responseBody = await response.Content.ReadAsStringAsync();
                 string responseStr = JsonConvert.DeserializeObject<string>(responseBody);
-                _songs = JsonConvert.DeserializeObject<List<Song>>(responseStr); 
+                _songs = JsonConvert.DeserializeObject<List<Song>>(responseStr);
             });
     }
 
