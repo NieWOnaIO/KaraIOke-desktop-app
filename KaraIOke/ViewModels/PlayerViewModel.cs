@@ -9,7 +9,7 @@ public partial class PlayerViewModel
 
     public PlayerViewModel(IServiceProvider serviceProvider)
     {
-        _navigationService = serviceProvider.GetService<NavigationService>();
+        _navigationService = serviceProvider.GetService<NavigationService>() ?? throw new InvalidOperationException("NavigationService is not registered");
 
         GoBack = new Command(
             execute: async () =>

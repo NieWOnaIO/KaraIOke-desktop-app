@@ -1,6 +1,7 @@
 using KaraIOke.Services.AppEnvironment;
 using KaraIOke.Views;
 using KaraIOke.ViewModels;
+using System.Diagnostics.CodeAnalysis;
 
 namespace KaraIOke.Services.Navigation;
 
@@ -14,11 +15,13 @@ public class NavigationService
         _serviceProvider = serviceProvider;
     }
 
+    [MemberNotNull(nameof(_navigation))]
     void initData()
     {
         if (_navigation is null)
         {
-            _navigation = _serviceProvider.GetService<MainView>().Navigation;
+            var mainView = _serviceProvider.GetService<MainView>() ?? throw new InvalidOperationException("MainView is not registered");
+            _navigation = mainView.Navigation;
         }
     }
 
@@ -26,7 +29,8 @@ public class NavigationService
     {
         initData();
 
-        _serviceProvider.GetService<SearchViewModel>().loadData();
+        var searchViewModel = _serviceProvider.GetService<SearchViewModel>() ?? throw new InvalidOperationException("SearchViewModel is not registered");
+        await searchViewModel.loadData(); 
         if (_navigation.NavigationStack.Last() is SearchView)
         {
             return;
@@ -46,6 +50,8 @@ public class NavigationService
 
     public async Task PopPage()
     {
+        initData();
+
         await _navigation.PopAsync();
     }
 
@@ -53,7 +59,8 @@ public class NavigationService
     {
         initData();
 
-        _serviceProvider.GetService<PlaylistDetailsViewModel>().loadData(playlistName);
+        var playlistDetailViewModel = _serviceProvider.GetService<PlaylistDetailsViewModel>() ?? throw new InvalidOperationException("PlaylistDetailsViewModel is not registered");
+        playlistDetailViewModel.loadData(playlistName);
 
         var playlistView = _serviceProvider.GetService<PlaylistDetailsView>();
         await _navigation.PushAsync(playlistView);
@@ -63,7 +70,8 @@ public class NavigationService
     {
         initData();
 
-        _serviceProvider.GetService<PlaylistsViewModel>().loadData();
+        var playlistsViewModel = _serviceProvider.GetService<PlaylistsViewModel>() ?? throw new InvalidOperationException("PlaylistsViewModel is not registered");
+        playlistsViewModel.loadData();
 
         var playlistListView = _serviceProvider.GetService<PlaylistsView>();
         await _navigation.PushAsync(playlistListView);
@@ -73,7 +81,8 @@ public class NavigationService
     {
         initData();
 
-        _serviceProvider.GetService<AddingViewModel>().loadData();
+        var addingViewModel = _serviceProvider.GetService<AddingViewModel>() ?? throw new InvalidOperationException("AddingViewModel is not recognized");
+        addingViewModel.loadData();
 
         var addingView = _serviceProvider.GetService<AddingView>();
         await _navigation.PushAsync(addingView);
