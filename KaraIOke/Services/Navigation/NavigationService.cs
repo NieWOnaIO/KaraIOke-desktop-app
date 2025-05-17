@@ -36,6 +36,9 @@ public class NavigationService
             return;
         }
 
+        var mainViewModel = _serviceProvider.GetService<MainViewModel>() ?? throw new InvalidOperationException("MainViewModel is not registered");
+        searchViewModel.SongName = mainViewModel.SongName;
+
         var searchView = _serviceProvider.GetService<SearchView>();
         await _navigation.PushAsync(searchView);
     }
