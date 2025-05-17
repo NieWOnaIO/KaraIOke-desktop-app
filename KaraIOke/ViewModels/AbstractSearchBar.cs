@@ -5,7 +5,7 @@ using KaraIOke.Services.AppEnvironment;
 using KaraIOke.Services.Navigation;
 
 namespace KaraIOke.ViewModels;
-public partial class ISearchBar : INotifyPropertyChanged
+public abstract class ISearchBar : INotifyPropertyChanged
 {
     protected readonly NavigationService _navigationService;
     protected readonly AppEnvironmentService _appEnvironmentService;
