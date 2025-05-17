@@ -44,27 +44,30 @@
 
         <CollectionView
             Grid.Row="1"
+            x:Name="SongCollection"
             WidthRequest="950"
             ItemsSource="{Binding Songs}">
-        
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <templates:SongTemplate />
+                    <templates:SongTemplate/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-                <!-- TODO: better label -->
-                <Label Text="No songs"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       FontSize="64"/>
+                <Grid HeightRequest="{Binding x:DataType=CollectionView, Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=Height}">
+                    <ActivityIndicator IsRunning="true"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       WidthRequest="200"
+                                       HeightRequest="200"/>
+                </Grid>
             </CollectionView.EmptyView>
         </CollectionView>
 
         <Button
             Grid.Row="2"
             x:Name="BackBtn"
-            Command ="{Binding GoToMain}"
+            Command="{Binding GoToMain}"
             CornerRadius="0"
             FontSize="32"
             WidthRequest="265"
