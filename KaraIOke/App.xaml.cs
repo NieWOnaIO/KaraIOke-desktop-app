@@ -9,7 +9,7 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        _mainView = serviceProvider.GetService<MainView>();
+        _mainView = serviceProvider.GetService<MainView>() ?? throw new InvalidOperationException("MainView is not registered.");
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using KaraIOke.Models;
+using Windows.ApplicationModel.VoiceCommands;
 
 namespace KaraIOke.Services.Search;
 
@@ -8,7 +9,7 @@ public class SearchService : ISearchService
 {
 
     private HttpClient _client = new HttpClient();
-    private Task _searchTask;
+    private Task _searchTask = Task.FromResult(0);
     private List<Song> _songs = [];
 
     public SearchService()
@@ -23,8 +24,8 @@ public class SearchService : ISearchService
             {
                 var response = await responseTask;
                 var responseBody = await response.Content.ReadAsStringAsync();
-                string responseStr = JsonConvert.DeserializeObject<string>(responseBody);
-                _songs = JsonConvert.DeserializeObject<List<Song>>(responseStr);
+                string responseStr = JsonConvert.DeserializeObject<string>(responseBody) ?? string.Empty;
+                _songs = JsonConvert.DeserializeObject<List<Song>>(responseStr) ?? [];
             });
     }
 

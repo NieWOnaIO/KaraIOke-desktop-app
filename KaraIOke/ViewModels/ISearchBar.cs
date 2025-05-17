@@ -20,8 +20,8 @@ public partial class ISearchBar : INotifyPropertyChanged
 
     public ISearchBar(IServiceProvider serviceProvider)
     {
-        _navigationService = serviceProvider.GetService<NavigationService>();
-        _appEnvironmentService = serviceProvider.GetService<AppEnvironmentService>();
+        _navigationService = serviceProvider.GetService<NavigationService>() ?? throw new InvalidOperationException("NavigationService is not registered");
+        _appEnvironmentService = serviceProvider.GetService<AppEnvironmentService>() ?? throw new InvalidOperationException("AppEnvironmentService is not registered");
 
         SearchForSong = new Command(
             execute: async () =>
