@@ -18,6 +18,7 @@ public class SearchMockService : ISearchService
     {
         return await Task.Run(() =>
         {
+            Thread.Sleep(2000);
             return Enumerable.Range(1, 10)
             .Select(i => $"{_songName}: Song {i}")
             .Select(str => new Song { title = str, url = "" });
