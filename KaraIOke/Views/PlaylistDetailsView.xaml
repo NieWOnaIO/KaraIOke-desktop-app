@@ -27,7 +27,13 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-                <Label Text="TODO: fancy loading animation"/>
+                <Grid HeightRequest="{Binding x:DataType=CollectionView, Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=Height}">
+                    <ActivityIndicator IsRunning="true"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       WidthRequest="200"
+                                       HeightRequest="200"/>
+                </Grid>
             </CollectionView.EmptyView>
         </CollectionView>
 

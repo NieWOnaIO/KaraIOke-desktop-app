@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using KaraIOke.Services.Playlists;
 using KaraIOke.Services.Search;
 
@@ -18,11 +19,14 @@ public class AppEnvironmentService
 
         _playlistService = playlistService;
         _playlistMockService = playlistMockService;
+
+        updateDependencies(false);
     }
 
     public ISearchService SearchService { get; private set; }
     public IPlaylistService PlaylistService { get; private set; }
 
+    [MemberNotNull(nameof(SearchService), nameof(PlaylistService))]
     public void updateDependencies(bool useMockServices)
     {
         if (useMockServices)
