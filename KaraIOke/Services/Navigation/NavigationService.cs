@@ -30,7 +30,7 @@ public class NavigationService
         initData();
 
         var searchViewModel = _serviceProvider.GetService<SearchViewModel>() ?? throw new InvalidOperationException("SearchViewModel is not registered");
-        searchViewModel.loadData(); 
+        searchViewModel.loadData();
         if (_navigation.NavigationStack.Last() is SearchView)
         {
             return;
