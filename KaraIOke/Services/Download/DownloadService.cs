@@ -7,8 +7,8 @@ namespace KaraIOke.Services.Download;
 
 public class SongAudio
 {
-    public byte[] Vocals { get; set; } = [];
-    public byte[] NoVocals { get; set; } = [];
+    public Stream Vocals { get; set; }
+    public Stream NoVocals { get; set; }
 }
 
 public class DownloadService : IDownloadService
@@ -20,6 +20,11 @@ public class DownloadService : IDownloadService
     public DownloadService()
     {
         _client.BaseAddress = new Uri("http://localhost:8000/");
+    }
+
+    public SongAudio GetSongAudio(Song song)
+    {
+        return _songAudios[song.hash];
     }
 
     public Task QueryDownload(Song song)
@@ -50,10 +55,10 @@ public class DownloadService : IDownloadService
         return metaData.ready;
     }
 
-    private async Task<byte[]> getAudio(Song song, string path)
+    private async Task<Stream> getAudio(Song song, string path)
     {
         var response = await _client.GetAsync($"v1/{path}/{song.hash}");
-        return await response.Content.ReadAsByteArrayAsync();
+        return await response.Content.ReadAsStreamAsync();
     }
 
     private async Task waitForSong(Song song)
