@@ -12,8 +12,6 @@ public class SearchMockService : ISearchService
         _songName = songName;
     }
 
-    public void queryDownload(Song song) { }
-
     public async Task<IEnumerable<Song>> getSongs()
     {
         return await Task.Run(() =>

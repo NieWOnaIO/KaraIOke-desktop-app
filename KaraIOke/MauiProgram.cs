@@ -5,6 +5,7 @@ using KaraIOke.Services.Search;
 using KaraIOke.ViewModels;
 using KaraIOke.Views;
 using KaraIOke.Services.Playlists;
+using KaraIOke.Services.Download;
 
 namespace KaraIOke;
 
@@ -36,9 +37,9 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<AppEnvironmentService>(
             serviceProvider =>
             {
-                var aes = new AppEnvironmentService(new SearchMockService(), new SearchService(), new PlaylistMockService(), new PlaylistService());
+                var aes = new AppEnvironmentService(new SearchMockService(), new SearchService(), new PlaylistMockService(), new PlaylistService(), new DownloadMockService(), new DownloadService());
 
-                aes.updateDependencies(true);
+                aes.updateDependencies(false);
 
                 return aes;
             }
