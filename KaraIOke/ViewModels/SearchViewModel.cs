@@ -21,15 +21,14 @@ public partial class SearchViewModel : ISearchBar
         GoToPlayer = new Command(
             execute: async (object song) =>
             {
-                _appEnvironmentService.DownloadService.queryDownload((Song)song);
-                await _navigationService.PushPlayer();
+                await _navigationService.PushPlayer((Song)song);
             }
         );
 
         AddToPlaylist = new Command(
             execute: async (object song) =>
             {
-                _appEnvironmentService.DownloadService.queryDownload((Song)song);
+                _appEnvironmentService.DownloadService.QueryDownload((Song)song);
                 await _navigationService.PushAdding();
             }
         );
@@ -38,7 +37,7 @@ public partial class SearchViewModel : ISearchBar
     public async Task loadData()
     {
         Songs = Enumerable.Empty<Song>();
-        Songs = await _appEnvironmentService.SearchService.getSongs();
+        Songs = await _appEnvironmentService.SearchService.GetSongs();
     }
 
     public ICommand GoToMain { private set; get; }

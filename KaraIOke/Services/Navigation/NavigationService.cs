@@ -2,6 +2,7 @@ using KaraIOke.Services.AppEnvironment;
 using KaraIOke.Views;
 using KaraIOke.ViewModels;
 using System.Diagnostics.CodeAnalysis;
+using KaraIOke.Models;
 
 namespace KaraIOke.Services.Navigation;
 
@@ -43,9 +44,12 @@ public class NavigationService
         await _navigation.PushAsync(searchView);
     }
 
-    public async Task PushPlayer()
+    public async Task PushPlayer(Song song)
     {
         initData();
+
+        var playerViewModel = _serviceProvider.GetService<PlayerViewModel>() ?? throw new InvalidOperationException("PlayerViewModel is not registered");
+        Task.Run(() => playerViewModel.SetSong(song)); // TODO - cancel thread launched when previouslu accessing player view, if exists
 
         var playerView = _serviceProvider.GetService<PlayerView>();
         await _navigation.PushAsync(playerView);

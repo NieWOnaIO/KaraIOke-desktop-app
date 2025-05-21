@@ -4,6 +4,6 @@ namespace KaraIOke.Services.Download;
 
 public class DownloadMockService : IDownloadService
 {
-    public void queryDownload(Song song) { }
+    public Task QueryDownload(Song song) { return Task.FromResult(0); }
 
 }

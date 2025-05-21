@@ -22,28 +22,31 @@ public class DownloadService : IDownloadService
         _client.BaseAddress = new Uri("http://localhost:8000/");
     }
 
-    public void queryDownload(Song song)
+    public Task QueryDownload(Song song)
     {
-        _client.PostAsync($"v1/process_song?link={song.url}", null)
-            .ContinueWith(async responseTask =>
-            {
-                var response = await responseTask;
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var songID = JsonConvert.DeserializeObject<SongID>(responseBody) ?? new();
-                song.hash = songID.song_id;
+        if (_songDownloads.ContainsKey(song.url))
+            return _songDownloads[song.url];
 
-                if (_songDownloads.ContainsKey(song.hash))
-                    return;
+        var task = downloadFlow(song);
 
-                _songDownloads.Add(song.hash, waitForSong(song));
-            });
+        _songDownloads.Add(song.url, task);
+
+        return task;
+    }
+
+    private async Task downloadFlow(Song song)
+    {
+        var response = await _client.PostAsync($"v1/process_song?link={song.url}", null);
+        var songID = await response.Content.ReadAsAsync<SongID>();
+        song.hash = songID.song_id;
+
+        await waitForSong(song);
     }
 
     private async Task<bool> pollSong(Song song)
     {
         var response = await _client.GetAsync($"v1/songinfo/{song.hash}");
-        var responseBody = await response.Content.ReadAsStringAsync();
-        var metaData = JsonConvert.DeserializeObject<MetaData>(responseBody) ?? new();
+        var metaData = await response.Content.ReadAsAsync<MetaData>();
         return metaData.ready;
     }
 
@@ -53,7 +56,7 @@ public class DownloadService : IDownloadService
         return await response.Content.ReadAsByteArrayAsync();
     }
 
-    private async Task<string> waitForSong(Song song)
+    private async Task waitForSong(Song song)
     {
         while (!await pollSong(song))
         {
@@ -64,7 +67,5 @@ public class DownloadService : IDownloadService
         var noVocals = getAudio(song, "song_no_vocals");
 
         _songAudios.Add(song.hash, new SongAudio { Vocals = await vocals, NoVocals = await noVocals });
-
-        return song.hash;
     }
 }
