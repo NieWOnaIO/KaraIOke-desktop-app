@@ -24,14 +24,8 @@ public class SearchService : ISearchService
             {
                 var response = await responseTask;
                 var responseBody = await response.Content.ReadAsStringAsync();
-                string responseStr = JsonConvert.DeserializeObject<string>(responseBody) ?? string.Empty;
-                _songs = JsonConvert.DeserializeObject<List<Song>>(responseStr) ?? [];
+                _songs = JsonConvert.DeserializeObject<List<Song>>(responseBody) ?? [];
             });
-    }
-
-    public void queryDownload(Song song)
-    {
-        _client.PostAsync($"v1/songs?link={song.url}", null);
     }
 
     public async Task<IEnumerable<Song>> getSongs()

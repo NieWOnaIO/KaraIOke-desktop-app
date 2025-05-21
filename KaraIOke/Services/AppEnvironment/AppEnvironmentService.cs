@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using KaraIOke.Services.Download;
 using KaraIOke.Services.Playlists;
 using KaraIOke.Services.Search;
 
@@ -12,7 +13,10 @@ public class AppEnvironmentService
     private readonly IPlaylistService _playlistService;
     private readonly IPlaylistService _playlistMockService;
 
-    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService, IPlaylistService playlistMockService, IPlaylistService playlistService)
+    private readonly IDownloadService _downloadService;
+    private readonly IDownloadService _downloadMockService;
+
+    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService, IPlaylistService playlistMockService, IPlaylistService playlistService, IDownloadService downloadMockService, IDownloadService downloadService)
     {
         _searchService = searchService;
         _searchMockService = searchMockService;
@@ -20,24 +24,30 @@ public class AppEnvironmentService
         _playlistService = playlistService;
         _playlistMockService = playlistMockService;
 
+        _downloadService = downloadService;
+        _downloadMockService = downloadMockService;
+
         updateDependencies(false);
     }
 
     public ISearchService SearchService { get; private set; }
     public IPlaylistService PlaylistService { get; private set; }
+    public IDownloadService DownloadService { get; private set; }
 
-    [MemberNotNull(nameof(SearchService), nameof(PlaylistService))]
+    [MemberNotNull(nameof(SearchService), nameof(PlaylistService), nameof(DownloadService))]
     public void updateDependencies(bool useMockServices)
     {
         if (useMockServices)
         {
             SearchService = _searchMockService;
             PlaylistService = _playlistMockService;
+            DownloadService = _downloadMockService;
         }
         else
         {
             SearchService = _searchService;
             PlaylistService = _playlistService;
+            DownloadService = _downloadService;
         }
     }
 }

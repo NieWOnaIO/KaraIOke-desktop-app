@@ -21,7 +21,7 @@ public partial class SearchViewModel : ISearchBar
         GoToPlayer = new Command(
             execute: async (object song) =>
             {
-                _appEnvironmentService.SearchService.queryDownload((Song)song);
+                _appEnvironmentService.DownloadService.queryDownload((Song)song);
                 await _navigationService.PushPlayer();
             }
         );
@@ -29,7 +29,7 @@ public partial class SearchViewModel : ISearchBar
         AddToPlaylist = new Command(
             execute: async (object song) =>
             {
-                _appEnvironmentService.SearchService.queryDownload((Song)song);
+                _appEnvironmentService.DownloadService.queryDownload((Song)song);
                 await _navigationService.PushAdding();
             }
         );
