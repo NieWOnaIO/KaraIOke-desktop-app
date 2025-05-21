@@ -4,5 +4,5 @@ namespace KaraIOke.Services.Download;
 
 public interface IDownloadService
 {
-    void queryDownload(Song song);
+    Task QueryDownload(Song song);
 }

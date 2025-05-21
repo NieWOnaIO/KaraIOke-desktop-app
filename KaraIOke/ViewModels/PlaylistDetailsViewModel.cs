@@ -38,9 +38,9 @@ public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
         );
 
         GoToPlayer = new Command(
-            execute: async (object? song) =>
+            execute: async (object song) =>
             {
-                await _navigationService.PushPlayer();
+                await _navigationService.PushPlayer((Song)song);
             }
         );
 

@@ -26,7 +26,7 @@ public abstract class ISearchBar : INotifyPropertyChanged
         SearchForSong = new Command(
             execute: async () =>
             {
-                _appEnvironmentService.SearchService.querySongs(SongName);
+                _appEnvironmentService.SearchService.QuerySongs(SongName);
                 await _navigationService.PushSearchSong();
             }
         );
