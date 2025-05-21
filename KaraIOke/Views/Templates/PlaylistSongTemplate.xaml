@@ -19,7 +19,7 @@
             FontSize="20"
             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PlaylistDetailsViewModel}}, Path=GoToPlayer, x:DataType=viewmodels:PlaylistDetailsViewModel}"
             CommandParameter="{Binding}"
-            Text="{Binding Name}"/>
+            Text="{Binding title}"/>
 
         <ImageButton
             Grid.Column="1"

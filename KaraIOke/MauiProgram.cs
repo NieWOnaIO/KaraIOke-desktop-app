@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using KaraIOke.Services.AppEnvironment;
 using KaraIOke.Services.Navigation;
 using KaraIOke.Services.Search;
@@ -38,7 +38,7 @@ public static class MauiProgram
             {
                 var aes = new AppEnvironmentService(new SearchMockService(), new SearchService(), new PlaylistMockService(), new PlaylistService());
 
-                aes.updateDependencies(true); // hardcoded switching mocks for now (surely we will change it in the future :))
+                aes.updateDependencies(true);
 
                 return aes;
             }

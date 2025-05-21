@@ -51,8 +51,9 @@ public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
                 {
                     await Task.Run(() =>
                     {
-                        _appEnvironmentService.PlaylistService.DeleteSong(Playlist?.Name, song);
-                        loadData(Playlist?.Name);
+                        var playlist = Playlist ?? throw new ArgumentException("null Playlist");
+                        _appEnvironmentService.PlaylistService.DeleteSong(playlist.Name, song);
+                        loadData(Playlist.Name);
                     });
 
                 }

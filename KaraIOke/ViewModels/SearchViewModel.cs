@@ -7,7 +7,7 @@ namespace KaraIOke.ViewModels;
 
 public partial class SearchViewModel : ISearchBar
 {
-    IEnumerable _songs;
+    IEnumerable _songs = Enumerable.Empty<Song>();
     public IEnumerable Songs { get { return _songs; } private set { SetProperty(ref _songs, value); } }
     public SearchViewModel(IServiceProvider serviceProvider) : base(serviceProvider)
     {
@@ -19,7 +19,7 @@ public partial class SearchViewModel : ISearchBar
         );
 
         GoToPlayer = new Command(
-            execute: async (object? song) =>
+            execute: async (object song) =>
             {
                 _appEnvironmentService.SearchService.queryDownload((Song)song);
                 await _navigationService.PushPlayer();
@@ -27,7 +27,7 @@ public partial class SearchViewModel : ISearchBar
         );
 
         AddToPlaylist = new Command(
-            execute: async (object? song) =>
+            execute: async (object song) =>
             {
                 _appEnvironmentService.SearchService.queryDownload((Song)song);
                 await _navigationService.PushAdding();

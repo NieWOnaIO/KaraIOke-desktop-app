@@ -28,11 +28,13 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-                <!-- TODO: better label -->
-                <Label Text="No playlists"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       FontSize="64"/>
+                <Grid HeightRequest="{Binding x:DataType=CollectionView, Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=Height}">
+                    <ActivityIndicator IsRunning="true"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       WidthRequest="200"
+                                       HeightRequest="200"/>
+                </Grid>
             </CollectionView.EmptyView>
         </CollectionView>
 
