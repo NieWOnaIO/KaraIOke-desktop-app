@@ -6,6 +6,7 @@ using KaraIOke.ViewModels;
 using KaraIOke.Views;
 using KaraIOke.Services.Playlists;
 using KaraIOke.Services.Download;
+using Plugin.Maui.Audio;
 
 namespace KaraIOke;
 
@@ -23,6 +24,8 @@ public static class MauiProgram
             .RegisterAppServices()
             .RegisterViewModels()
             .RegisterViews();
+
+        builder.Services.AddSingleton(AudioManager.Current);
 
 #if DEBUG
         builder.Logging.AddDebug();
