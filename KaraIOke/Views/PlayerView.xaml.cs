@@ -15,5 +15,15 @@ public partial class PlayerView : ContentPage
     {
         ((PlayerViewModel)BindingContext).OnAudioSliderValueChanged(args.NewValue);
     }
+
+    void OnVocalVolumeChanged(object sender, ValueChangedEventArgs args)
+    {
+        ((PlayerViewModel)BindingContext).VocalVolumeChanged(args.NewValue);
+    }
+
+    void OnNoVocalVolumeChanged(object sender, ValueChangedEventArgs args)
+    {
+        ((PlayerViewModel)BindingContext).NoVocalVolumeChanged(args.NewValue);
+    }
 }
 
