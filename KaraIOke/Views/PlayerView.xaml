@@ -8,6 +8,9 @@
              BackgroundColor="#121212"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
+    <ContentPage.Resources>
+        <viewmodels:DoubleToTimeStrConverter x:Key="doubleToTime" />
+    </ContentPage.Resources>
 
     <Grid Padding="167,50,125,20">
         <Grid.RowDefinitions>
@@ -20,108 +23,133 @@
             HorizontalOptions="Center"
             Grid.Row="0">
 
-        <Label
-            FontSize="96"
-            TextColor="#8561E8"
-            > 
-            <Label.Text>
-La la la la
-            </Label.Text>
+            <Label
+                FontSize="96"
+                TextColor="#8561E8">
+                <Label.Text>
+                    La la la la
+                </Label.Text>
             </Label>
-        <Label
-            FontSize="96"
-            TextColor="#FFFFFF"
-            > 
-            <Label.Text>
-na na na na
+            <Label
+                FontSize="96"
+                TextColor="#FFFFFF">
+                <Label.Text>
+                    na na na na
 Ooh ooh ooh
-yeah yeah yeah 
-            </Label.Text>
+yeah yeah yeah
+                </Label.Text>
             </Label>
         </VerticalStackLayout>
 
-        <Slider
-            Grid.Row="1"
-            Margin="0,0,43,0"
-            Maximum="360"/>
-            <!-- ValueChanged="OnSliderValueChanged" /> -->
+        <Grid
+            Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0"
+                   VerticalOptions="Center"
+                   FontSize="15"
+                   Text="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PlayerViewModel}}, Path=AudioPosition, x:DataType=viewmodels:PlayerViewModel, Converter={StaticResource doubleToTime}}"/>
+            <Slider
+                VerticalOptions="Center"
+                Value="{Binding AudioPosition}"
+                Grid.Column="1"
+                Margin="10,0,10,0"
+                Maximum="{Binding AudioLength}"
+                ValueChanged="OnAudioSliderValueChanged" />
+            <Label Grid.Column="2"
+                   VerticalOptions="Center"
+                   FontSize="15"
+                   Text="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PlayerViewModel}}, Path=AudioLength, x:DataType=viewmodels:PlayerViewModel, Converter={StaticResource doubleToTime}}"/>
+        </Grid>
 
         <Grid
             Grid.Row="2">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="48"/>
-            <ColumnDefinition Width="166"/>
-            <ColumnDefinition Width="48"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="166"/>
+                <ColumnDefinition Width="48"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
 
-        <Label FontSize="24" Grid.Row="0" Grid.Column="0" Text="Wokal" />
-            
-        <Slider
-            Grid.Row="0"
-            Grid.Column="0"
-            WidthRequest="225"
-            HorizontalOptions="Start"
-            VerticalOptions="Center"
-            Maximum="360"/>
+            <Label FontSize="24"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Text="Wokal"/>
 
-        <Label FontSize="24" Grid.Row="1" Grid.Column="0" Text="Podkład" />
-        <Slider
-            Grid.Row="1"
-            Grid.Column="0"
-            WidthRequest="225"
-            HorizontalOptions="Start"
-            VerticalOptions="Center"
-            Maximum="360"/>
+            <Slider
+                Grid.Row="0"
+                Grid.Column="0"
+                WidthRequest="225"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Maximum="1"/>
 
-        <ImageButton
-            Grid.RowSpan="2"
-            Grid.Column="1"
-            WidthRequest="48"
-            HeightRequest="48"
-            BackgroundColor="transparent"
-            VerticalOptions="Center"
-            IsEnabled="{Binding IsPlayingPlaylist}"
-            Source="rewind.png"/>
+            <Label FontSize="24"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Text="Podkład"/>
+            <Slider
+                Grid.Row="1"
+                Grid.Column="0"
+                WidthRequest="225"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Maximum="1"/>
 
-        <ImageButton
-            Grid.RowSpan="2"
-            Grid.Column="2"
-            WidthRequest="70"
-            HeightRequest="70"
-            BackgroundColor="transparent"
-            VerticalOptions="Center"
-            Command="{Binding PlayButton}"
-            IsEnabled="{Binding ReadyToPlay}"
-            Source="{Binding PlayButtonSource}"/>
+            <ImageButton
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                WidthRequest="48"
+                HeightRequest="48"
+                BackgroundColor="transparent"
+                VerticalOptions="Center"
+                IsEnabled="{Binding IsPlayingPlaylist}"
+                Source="rewind.png"/>
 
-        <ImageButton
-            Grid.RowSpan="2"
-            Grid.Column="3"
-            WidthRequest="48"
-            HeightRequest="48"
-            BackgroundColor="transparent"
-            VerticalOptions="Center"
-            IsEnabled="{Binding IsPlayingPlaylist}"
-            Source="forward.png"/>
+            <ImageButton
+                Grid.RowSpan="2"
+                Grid.Column="2"
+                WidthRequest="70"
+                HeightRequest="70"
+                BackgroundColor="transparent"
+                VerticalOptions="Center"
+                Command="{Binding PlayButton}"
+                IsEnabled="{Binding ReadyToPlay}"
+                Source="{Binding PlayButtonSource}"/>
 
-        <Button
-            Grid.RowSpan="2"
-            Grid.Column="4"
-            CornerRadius="0"
-            FontSize="32"
-            WidthRequest="265"
-            HeightRequest="60"
-            VerticalOptions="Center"
-            HorizontalOptions="End"
-            Text="Powrót"
-            Command="{Binding GoBack}"/>
+            <ImageButton
+                Grid.RowSpan="2"
+                Grid.Column="3"
+                WidthRequest="48"
+                HeightRequest="48"
+                BackgroundColor="transparent"
+                VerticalOptions="Center"
+                IsEnabled="{Binding IsPlayingPlaylist}"
+                Source="forward.png"/>
+
+            <Button
+                Grid.RowSpan="2"
+                Grid.Column="4"
+                CornerRadius="0"
+                FontSize="32"
+                WidthRequest="265"
+                HeightRequest="60"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                Text="Powrót"
+                Command="{Binding GoBack}"/>
 
         </Grid>
     </Grid>
