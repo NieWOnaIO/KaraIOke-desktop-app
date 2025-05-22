@@ -42,7 +42,7 @@ public static class MauiProgram
             {
                 var aes = new AppEnvironmentService(new SearchMockService(), new SearchService(), new PlaylistMockService(), new PlaylistService(), new DownloadMockService(), new DownloadService());
 
-                aes.updateDependencies(false);
+                aes.updateDependencies(true);
 
                 return aes;
             }
