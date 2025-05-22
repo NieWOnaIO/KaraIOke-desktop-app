@@ -43,11 +43,6 @@ public abstract class ISearchBar : INotifyPropertyChanged
         OnPropertyChanged(propertyName);
         return true;
     }
-
-    protected void UpdateProperty<T>(ref T storage, [CallerMemberName] string propertyName = "")
-    {
-        OnPropertyChanged(propertyName);
-    }
     protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
