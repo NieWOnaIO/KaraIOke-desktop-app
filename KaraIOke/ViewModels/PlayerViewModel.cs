@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using KaraIOke.Models;
@@ -9,8 +10,22 @@ using Plugin.Maui.Audio;
 
 namespace KaraIOke.ViewModels;
 
+public class DoubleToTimeStrConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo cultureInfo)
+    {
+        return TimeSpan.FromSeconds((double)value).ToString("mm':'ss");
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo cultureInfo)
+    {
+        return 0.0;
+    }
+}
+
 public partial class PlayerViewModel : INotifyPropertyChanged
 {
+    private Mutex _mutex = new();
     private const string PlayPng = "play.png";
     private const string PausePng = "pause.png";
     protected readonly NavigationService _navigationService;
@@ -22,6 +37,18 @@ public partial class PlayerViewModel : INotifyPropertyChanged
     private IAudioPlayer? _noVocalsPlayer;
     private IAudioPlayer? _vocalsPlayer;
 
+    private double _audioPosition;
+    public double AudioPosition
+    {
+        get => _audioPosition;
+        private set => SetProperty(ref _audioPosition, value);
+    }
+    private double _audioLength;
+    public double AudioLength
+    {
+        get => _audioLength;
+        private set => SetProperty(ref _audioLength, value);
+    }
     private string _playButtonSource;
     public string PlayButtonSource
     {
@@ -52,6 +79,17 @@ public partial class PlayerViewModel : INotifyPropertyChanged
 
         PlayButton = _play;
         PlayButtonSource = PlayPng;
+
+        AudioLength = 0.0;
+    }
+
+    private void pauseSong()
+    {
+        if (_noVocalsPlayer is not null)
+            _noVocalsPlayer.Pause();
+
+        if (_vocalsPlayer is not null)
+            _vocalsPlayer.Pause();
     }
 
     public async Task SetSong(Song song)
@@ -78,6 +116,7 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         GoBack = new Command(
             execute: async () =>
             {
+                pauseSong();
                 await _navigationService.PopPage();
             }
         );
@@ -89,6 +128,8 @@ public partial class PlayerViewModel : INotifyPropertyChanged
                 {
                     _vocalsPlayer.Play();
                     _noVocalsPlayer.Play();
+
+                    AudioLength = _noVocalsPlayer.Duration;
 
                     PlayButton = _pause;
                     PlayButtonSource = PausePng;
@@ -110,9 +151,33 @@ public partial class PlayerViewModel : INotifyPropertyChanged
             }
         );
 
-        PlayButton = _play;
+        Task.Run(() =>
+        {
+            while (true)
+            {
+                _mutex.WaitOne();
+                if (_noVocalsPlayer is not null && _noVocalsPlayer.IsPlaying)
+                {
+                    AudioPosition = _noVocalsPlayer.CurrentPosition;
+                }
+                _mutex.ReleaseMutex();
+
+                Thread.Sleep(100);
+            }
+        });
 
         _audioManager = serviceProvider.GetService<IAudioManager>() ?? throw new InvalidOperationException("AudioManager not registered");
+    }
+
+    public void OnAudioSliderValueChanged(double value)
+    {
+        _mutex.WaitOne();
+        if (_vocalsPlayer is not null && _noVocalsPlayer is not null)
+        {
+            _noVocalsPlayer.Seek(value);
+            _vocalsPlayer.Seek(value);
+        }
+        _mutex.ReleaseMutex();
     }
 
     public ICommand GoBack { private set; get; }
