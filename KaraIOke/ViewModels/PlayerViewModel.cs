@@ -180,6 +180,23 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         _mutex.ReleaseMutex();
     }
 
+    public void VocalVolumeChanged(double value)
+    {
+        if (_vocalsPlayer is not null)
+        {
+            _vocalsPlayer.Volume = value;
+        }
+    }
+
+    public void NoVocalVolumeChanged(double value)
+    {
+        if (_noVocalsPlayer is not null)
+        {
+            _noVocalsPlayer.Volume = value;
+        }
+    }
+
+
     public ICommand GoBack { private set; get; }
     private ICommand _playButton;
     public ICommand PlayButton

@@ -94,6 +94,8 @@ yeah yeah yeah
                 WidthRequest="225"
                 HorizontalOptions="Start"
                 VerticalOptions="Center"
+                Value="1"
+                ValueChanged="OnVocalVolumeChanged"
                 Maximum="1"/>
 
             <Label FontSize="24"
@@ -106,6 +108,8 @@ yeah yeah yeah
                 WidthRequest="225"
                 HorizontalOptions="Start"
                 VerticalOptions="Center"
+                Value="1"
+                ValueChanged="OnNoVocalVolumeChanged"
                 Maximum="1"/>
 
             <ImageButton
