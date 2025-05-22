@@ -54,6 +54,7 @@
 		<MauiImage Update="Resources\Images\rewind.svg" Resize="True" BaseSize="48,48" />
 		<MauiImage Update="Resources\Images\forward.svg" Resize="True" BaseSize="48,48" />
 		<MauiImage Update="Resources\Images\play.svg" Resize="True" BaseSize="70,70" />
+		<MauiImage Update="Resources\Images\pause.svg" Resize="True" BaseSize="70,70" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
