@@ -10,5 +10,10 @@ public partial class PlayerView : ContentPage
 
         BindingContext = serviceProvider.GetService<PlayerViewModel>();
     }
+
+    void OnAudioSliderValueChanged(object sender, ValueChangedEventArgs args)
+    {
+        ((PlayerViewModel)BindingContext).OnAudioSliderValueChanged(args.NewValue);
+    }
 }
 
