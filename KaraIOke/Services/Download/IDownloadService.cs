@@ -1,0 +1,9 @@
+using KaraIOke.Models;
+
+namespace KaraIOke.Services.Download;
+
+public interface IDownloadService
+{
+    Task QueryDownload(Song song);
+    SongAudio GetSongAudio(Song song);
+}

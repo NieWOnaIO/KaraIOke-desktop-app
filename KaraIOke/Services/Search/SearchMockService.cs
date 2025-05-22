@@ -7,14 +7,12 @@ public class SearchMockService : ISearchService
 
     string _songName = "";
 
-    public void querySongs(string songName)
+    public void QuerySongs(string songName)
     {
         _songName = songName;
     }
 
-    public void queryDownload(Song song) { }
-
-    public async Task<IEnumerable<Song>> getSongs()
+    public async Task<IEnumerable<Song>> GetSongs()
     {
         return await Task.Run(() =>
         {

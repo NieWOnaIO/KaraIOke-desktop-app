@@ -17,24 +17,18 @@ public class SearchService : ISearchService
         _client.BaseAddress = new Uri("http://localhost:8000/");
     }
 
-    public void querySongs(string songName)
+    public void QuerySongs(string songName)
     {
-        _searchTask = _client.GetAsync($"/v1/search/{songName}")
-            .ContinueWith(async responseTask =>
-            {
-                var response = await responseTask;
-                var responseBody = await response.Content.ReadAsStringAsync();
-                string responseStr = JsonConvert.DeserializeObject<string>(responseBody) ?? string.Empty;
-                _songs = JsonConvert.DeserializeObject<List<Song>>(responseStr) ?? [];
-            });
+        _searchTask = requestSongs(songName);
     }
 
-    public void queryDownload(Song song)
+    private async Task requestSongs(string songName)
     {
-        _client.PostAsync($"v1/songs?link={song.url}", null);
+        var response = await _client.GetAsync($"/v1/search/{songName}");
+        _songs = await response.Content.ReadAsAsync<List<Song>>();
     }
 
-    public async Task<IEnumerable<Song>> getSongs()
+    public async Task<IEnumerable<Song>> GetSongs()
     {
         await _searchTask;
         return _songs;

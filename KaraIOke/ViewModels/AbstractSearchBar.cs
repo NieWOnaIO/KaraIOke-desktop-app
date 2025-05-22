@@ -26,7 +26,7 @@ public abstract class ISearchBar : INotifyPropertyChanged
         SearchForSong = new Command(
             execute: async () =>
             {
-                _appEnvironmentService.SearchService.querySongs(SongName);
+                _appEnvironmentService.SearchService.QuerySongs(SongName);
                 await _navigationService.PushSearchSong();
             }
         );
@@ -42,11 +42,6 @@ public abstract class ISearchBar : INotifyPropertyChanged
         storage = value;
         OnPropertyChanged(propertyName);
         return true;
-    }
-
-    protected void UpdateProperty<T>(ref T storage, [CallerMemberName] string propertyName = "")
-    {
-        OnPropertyChanged(propertyName);
     }
     protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
     {
