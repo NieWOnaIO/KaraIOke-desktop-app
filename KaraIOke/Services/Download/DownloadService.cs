@@ -1,7 +1,4 @@
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using KaraIOke.Models;
-using Windows.ApplicationModel.VoiceCommands;
 
 namespace KaraIOke.Services.Download;
 
