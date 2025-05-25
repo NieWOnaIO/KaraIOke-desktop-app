@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using KaraIOke.Models;
 
 namespace KaraIOke.Models;
 

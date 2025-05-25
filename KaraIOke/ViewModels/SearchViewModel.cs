@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using KaraIOke.Models;
 
