@@ -3,6 +3,7 @@ using KaraIOke.Views;
 using KaraIOke.ViewModels;
 using System.Diagnostics.CodeAnalysis;
 using KaraIOke.Models;
+using System.Security.Principal;
 
 namespace KaraIOke.Services.Navigation;
 
@@ -49,7 +50,10 @@ public class NavigationService
         initData();
 
         var playerViewModel = _serviceProvider.GetService<PlayerViewModel>() ?? throw new InvalidOperationException("PlayerViewModel is not registered");
-        Task.Run(() => playerViewModel.SetSong(song)); // TODO - cancel thread launched when previouslu accessing player view, if exists
+        if (song.url != playerViewModel.Song.url &&  playerViewModel.GetTokenSource() is var source && source is not null) {
+            source?.Cancel();
+        }
+        Task.Run(() => playerViewModel.SetSong(song, playerViewModel.GenerateNewToken()));
 
         var playerView = _serviceProvider.GetService<PlayerView>();
         await _navigation.PushAsync(playerView);

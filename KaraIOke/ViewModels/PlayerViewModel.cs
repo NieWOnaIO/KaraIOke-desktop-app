@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -34,6 +35,11 @@ public partial class PlayerViewModel : INotifyPropertyChanged
     private readonly IAudioManager _audioManager;
 
     private Song? _song;
+    public Song Song
+    {
+        get => _song ?? new Song();
+        private set => SetProperty(ref _song, value);
+    }
     private IAudioPlayer? _noVocalsPlayer;
     private IAudioPlayer? _vocalsPlayer;
 
@@ -80,9 +86,21 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         PlayButton = _play;
         PlayButtonSource = PlayPng;
 
+        AudioPosition = 0.0;
         AudioLength = 0.0;
     }
 
+    private CancellationTokenSource? _cancellationTokenSource;
+
+    public CancellationTokenSource? GetTokenSource()
+    {
+        return _cancellationTokenSource;
+    }
+    public CancellationToken GenerateNewToken()
+    {
+        _cancellationTokenSource = new CancellationTokenSource();
+        return _cancellationTokenSource.Token;
+    }
     private void pauseSong()
     {
         if (_noVocalsPlayer is not null)
@@ -92,12 +110,14 @@ public partial class PlayerViewModel : INotifyPropertyChanged
             _vocalsPlayer.Pause();
     }
 
-    public async Task SetSong(Song song)
+    public async Task SetSong(Song song, CancellationToken cancellationToken)
     {
         resetState();
         _song = song;
 
         await _downloadService.QueryDownload(song);
+        if (cancellationToken.IsCancellationRequested)
+            return;
 
         var songAudio = _downloadService.GetSongAudio(_song);
 
@@ -113,6 +133,19 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         var environment = serviceProvider.GetService<AppEnvironmentService>() ?? throw new InvalidOperationException("AppEnvironmentService is not registered");
         _downloadService = environment.DownloadService;
 
+        Rewind = new Command(
+            execute: () =>
+            {
+                _mutex.WaitOne();
+                if (_vocalsPlayer is not null && _noVocalsPlayer is not null)
+                {
+                    _noVocalsPlayer.Seek(0);
+                    _vocalsPlayer.Seek(0);
+                    AudioPosition = 0.0;
+                }
+                _mutex.ReleaseMutex();
+            }
+        );
         GoBack = new Command(
             execute: async () =>
             {
@@ -196,6 +229,7 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         }
     }
 
+    public ICommand Rewind { private set; get; }
 
     public ICommand GoBack { private set; get; }
     private ICommand _playButton;
