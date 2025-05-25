@@ -119,7 +119,8 @@ yeah yeah yeah
                 HeightRequest="48"
                 BackgroundColor="transparent"
                 VerticalOptions="Center"
-                IsEnabled="{Binding IsPlayingPlaylist}"
+                Command="{Binding Rewind}"
+                IsEnabled="{Binding ReadyToPlay}"
                 Source="rewind.png"/>
 
             <ImageButton
