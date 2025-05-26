@@ -38,6 +38,7 @@
                 Placeholder="Szukaj piosenki..."
                 FontSize="32"
                 HorizontalTextAlignment="Center"
+                Completed="OnEntryCompleted"
                 WidthRequest="472"
                 HeightRequest="60"/>
 

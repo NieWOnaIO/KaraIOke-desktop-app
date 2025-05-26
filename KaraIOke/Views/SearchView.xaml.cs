@@ -10,5 +10,10 @@ public partial class SearchView : ContentPage
 
         BindingContext = serviceProvider.GetService<SearchViewModel>();
     }
+
+    void OnEntryCompleted(object sender, EventArgs e)
+    {
+        ((SearchViewModel)BindingContext).SearchForSong.Execute(null);
+    }
 }
 
