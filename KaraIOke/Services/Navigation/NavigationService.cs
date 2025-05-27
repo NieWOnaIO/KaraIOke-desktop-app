@@ -43,7 +43,7 @@ public class NavigationService
         await _navigation.PushAsync(searchView);
     }
 
-    public async Task PushPlayer(Song song)
+    public async Task PushPlayer(Song song, Playlist? playlist = null)
     {
         initData();
 
@@ -52,7 +52,7 @@ public class NavigationService
         {
             source?.Cancel();
         }
-        Task.Run(() => playerViewModel.SetSong(song, playerViewModel.GenerateNewToken()));
+        Task.Run(() => playerViewModel.SetData(song, playlist, playerViewModel.GenerateNewToken()));
 
         var playerView = _serviceProvider.GetService<PlayerView>();
         await _navigation.PushAsync(playerView);

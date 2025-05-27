@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -6,6 +7,7 @@ using KaraIOke.Models;
 using KaraIOke.Services.AppEnvironment;
 using KaraIOke.Services.Download;
 using KaraIOke.Services.Navigation;
+using KaraIOke.Views.Templates;
 using Plugin.Maui.Audio;
 
 namespace KaraIOke.ViewModels;
@@ -39,6 +41,12 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         get => _song ?? new Song();
         private set => SetProperty(ref _song, value);
     }
+
+    public string SongName
+    {
+        get => _song?.title ?? string.Empty;
+    }
+
     private IAudioPlayer? _noVocalsPlayer;
     private IAudioPlayer? _vocalsPlayer;
 
@@ -71,16 +79,21 @@ public partial class PlayerViewModel : INotifyPropertyChanged
 
     private bool _isPlayingPlaylist;
 
-    public bool IsPlayingPlaylist
+    public bool ForwardButtonEnabled
     {
-        get => _isPlayingPlaylist;
-        private set => SetProperty(ref _isPlayingPlaylist, value);
+        get => _isPlayingPlaylist && _readyToPlay && _playlistPosition < _playlist?.Songs.Count() - 1;
     }
+
+    private Playlist? _playlist;
+    private int _playlistPosition;
 
     private void resetState()
     {
+        pauseSong();
+
         ReadyToPlay = false;
-        IsPlayingPlaylist = false;
+        _isPlayingPlaylist = false;
+        OnPropertyChanged(nameof(ForwardButtonEnabled));
 
         PlayButton = _play;
         PlayButtonSource = PlayPng;
@@ -109,10 +122,19 @@ public partial class PlayerViewModel : INotifyPropertyChanged
             _vocalsPlayer.Pause();
     }
 
-    public async Task SetSong(Song song, CancellationToken cancellationToken)
+    public async Task SetData(Song song, Playlist? playlist, CancellationToken cancellationToken)
     {
         resetState();
         _song = song;
+        OnPropertyChanged(nameof(SongName));
+
+        _playlist = playlist;
+        if (playlist != null)
+        {
+            _isPlayingPlaylist = true;
+            _playlistPosition = playlist.Songs.IndexOf(song);
+        }
+        OnPropertyChanged(nameof(ForwardButtonEnabled));
 
         await _downloadService.QueryDownload(song);
         if (cancellationToken.IsCancellationRequested)
@@ -123,7 +145,20 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         _noVocalsPlayer = _audioManager.CreatePlayer(songAudio.NoVocals);
         _vocalsPlayer = _audioManager.CreatePlayer(songAudio.Vocals);
 
+        _noVocalsPlayer.PlaybackEnded += (o, e) =>
+        {
+            if (!_isPlayingPlaylist || !ForwardButtonEnabled)
+            {
+                _pause.Execute(null);
+            }
+            else
+            {
+                ForwardButton.Execute(null);
+            }
+        };
+
         ReadyToPlay = true;
+        OnPropertyChanged(nameof(ForwardButtonEnabled));
     }
 
     public PlayerViewModel(IServiceProvider serviceProvider)
@@ -132,10 +167,21 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         var environment = serviceProvider.GetService<AppEnvironmentService>() ?? throw new InvalidOperationException("AppEnvironmentService is not registered");
         _downloadService = environment.DownloadService;
 
-        Rewind = new Command(
+        RewindButton = new Command(
             execute: () =>
             {
                 _mutex.WaitOne();
+                if (_playlist != null && _audioPosition < 2 && _playlistPosition > 0)
+                {
+                    if (_cancellationTokenSource != null)
+                    {
+                        _cancellationTokenSource.Cancel();
+                    }
+                    Task.Run(() => SetData(_playlist.Songs[_playlistPosition - 1], _playlist, GenerateNewToken()));
+                    _mutex.ReleaseMutex();
+                    return;
+                }
+
                 if (_vocalsPlayer is not null && _noVocalsPlayer is not null)
                 {
                     _noVocalsPlayer.Seek(0);
@@ -145,10 +191,22 @@ public partial class PlayerViewModel : INotifyPropertyChanged
                 _mutex.ReleaseMutex();
             }
         );
+
+        ForwardButton = new Command(
+            execute: () =>
+            {
+                if (_cancellationTokenSource != null)
+                {
+                    _cancellationTokenSource.Cancel();
+                }
+                Task.Run(() => SetData(_playlist.Songs[_playlistPosition + 1], _playlist, GenerateNewToken()));
+            }
+        );
+
         GoBack = new Command(
             execute: async () =>
             {
-                pauseSong();
+                resetState();
                 await _navigationService.PopPage();
             }
         );
@@ -228,7 +286,8 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         }
     }
 
-    public ICommand Rewind { private set; get; }
+    public ICommand RewindButton { private set; get; }
+    public ICommand ForwardButton { private set; get; }
 
     public ICommand GoBack { private set; get; }
     private ICommand _playButton;

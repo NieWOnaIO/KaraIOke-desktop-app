@@ -27,7 +27,7 @@ public partial class SearchViewModel : ISearchBar
         AddToPlaylist = new Command(
             execute: async (object song) =>
             {
-                _appEnvironmentService.DownloadService.QueryDownload((Song)song);
+                Task.Run(() => _appEnvironmentService.DownloadService.QueryDownload((Song)song));
                 await _navigationService.PushAdding();
             }
         );
