@@ -9,19 +9,25 @@
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
     <ContentPage.Resources>
-        <viewmodels:DoubleToTimeStrConverter x:Key="doubleToTime" />
+        <viewmodels:DoubleToTimeStrConverter x:Key="doubleToTime"/>
     </ContentPage.Resources>
 
     <Grid Padding="167,50,125,20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="100"/>
             <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
+        <Label Grid.Row="0"
+                FontSize="32"
+                HorizontalOptions="Center"
+                Text="{Binding SongName}"/>
+
         <VerticalStackLayout
             HorizontalOptions="Center"
-            Grid.Row="0">
+            Grid.Row="1">
 
             <Label
                 FontSize="96"
@@ -42,7 +48,7 @@ yeah yeah yeah
         </VerticalStackLayout>
 
         <Grid
-            Grid.Row="1">
+            Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition/>
             </Grid.RowDefinitions>
@@ -61,7 +67,7 @@ yeah yeah yeah
                 Grid.Column="1"
                 Margin="10,0,10,0"
                 Maximum="{Binding AudioLength}"
-                ValueChanged="OnAudioSliderValueChanged" />
+                ValueChanged="OnAudioSliderValueChanged"/>
             <Label Grid.Column="2"
                    VerticalOptions="Center"
                    FontSize="15"
@@ -69,7 +75,7 @@ yeah yeah yeah
         </Grid>
 
         <Grid
-            Grid.Row="2">
+            Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -119,7 +125,7 @@ yeah yeah yeah
                 HeightRequest="48"
                 BackgroundColor="transparent"
                 VerticalOptions="Center"
-                Command="{Binding Rewind}"
+                Command="{Binding RewindButton}"
                 IsEnabled="{Binding ReadyToPlay}"
                 Source="rewind.png"/>
 
@@ -141,7 +147,8 @@ yeah yeah yeah
                 HeightRequest="48"
                 BackgroundColor="transparent"
                 VerticalOptions="Center"
-                IsEnabled="{Binding IsPlayingPlaylist}"
+                Command="{Binding ForwardButton}"
+                IsEnabled="{Binding ForwardButtonEnabled}"
                 Source="forward.png"/>
 
             <Button
