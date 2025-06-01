@@ -30,21 +30,15 @@
             Grid.Row="1">
 
             <Label
-                FontSize="96"
-                TextColor="#8561E8">
-                <Label.Text>
-                    La la la la
-                </Label.Text>
-            </Label>
+                FontSize="80"
+                TextColor="#8561E8"
+                HorizontalTextAlignment="Center"
+                Text="{Binding CurrentLyrics}"/>
             <Label
-                FontSize="96"
-                TextColor="#FFFFFF">
-                <Label.Text>
-                    na na na na
-Ooh ooh ooh
-yeah yeah yeah
-                </Label.Text>
-            </Label>
+                FontSize="80"
+                TextColor="#FFFFFF"
+                HorizontalTextAlignment="Center"
+                Text="{Binding NextLyrics}"/>
         </VerticalStackLayout>
 
         <Grid

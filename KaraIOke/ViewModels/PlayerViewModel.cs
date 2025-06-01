@@ -9,6 +9,7 @@ using KaraIOke.Services.Download;
 using KaraIOke.Services.Navigation;
 using KaraIOke.Views.Templates;
 using Plugin.Maui.Audio;
+using SubtitlesParser.Classes;
 
 namespace KaraIOke.ViewModels;
 
@@ -49,6 +50,50 @@ public partial class PlayerViewModel : INotifyPropertyChanged
 
     private IAudioPlayer? _noVocalsPlayer;
     private IAudioPlayer? _vocalsPlayer;
+    private List<SubtitleItem> _lyrics = [];
+    private int _getLyricsPos()
+    {
+        int audioPos = (int)(AudioPosition * 1000.0);
+        for (int i = 0; i < _lyrics.Count; i++)
+        {
+            var l = _lyrics[i];
+            if (l.StartTime <= audioPos && audioPos <= l.EndTime)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private string _getNextLyrics()
+    {
+        int audioPos = (int)(AudioPosition * 1000.0);
+        int i;
+        for (i = 0; i < _lyrics.Count; i++)
+        {
+            var l = _lyrics[i];
+            if (audioPos < l.StartTime)
+                break;
+        }
+
+        if (i == _lyrics.Count)
+            return string.Empty;
+
+        if (i == _lyrics.Count - 1)
+            return _lyrics[i].Lines[0];
+
+        return _lyrics[i].Lines[0] + "\n" + _lyrics[i+1].Lines[0];
+    }
+
+    public string CurrentLyrics
+    {
+        get => _getLyricsPos() >= 0 ? _lyrics[_getLyricsPos()].Lines[0] : "♪";
+    }
+
+    public string NextLyrics
+    {
+        get => _getNextLyrics();
+    }
 
     private double _audioPosition;
     public double AudioPosition
@@ -100,6 +145,10 @@ public partial class PlayerViewModel : INotifyPropertyChanged
 
         AudioPosition = 0.0;
         AudioLength = 0.0;
+
+        _lyrics = [];
+        OnPropertyChanged(nameof(CurrentLyrics));
+        OnPropertyChanged(nameof(NextLyrics));
     }
 
     private CancellationTokenSource? _cancellationTokenSource;
@@ -144,6 +193,7 @@ public partial class PlayerViewModel : INotifyPropertyChanged
 
         _noVocalsPlayer = _audioManager.CreatePlayer(songAudio.NoVocals);
         _vocalsPlayer = _audioManager.CreatePlayer(songAudio.Vocals);
+        _lyrics = songAudio.Lyrics;
 
         _noVocalsPlayer.PlaybackEnded += (o, e) =>
         {
@@ -159,6 +209,8 @@ public partial class PlayerViewModel : INotifyPropertyChanged
 
         ReadyToPlay = true;
         OnPropertyChanged(nameof(ForwardButtonEnabled));
+        OnPropertyChanged(nameof(CurrentLyrics));
+        OnPropertyChanged(nameof(NextLyrics));
     }
 
     public PlayerViewModel(IServiceProvider serviceProvider)
@@ -249,6 +301,8 @@ public partial class PlayerViewModel : INotifyPropertyChanged
                 if (_noVocalsPlayer is not null && _noVocalsPlayer.IsPlaying)
                 {
                     AudioPosition = _noVocalsPlayer.CurrentPosition;
+                    OnPropertyChanged(nameof(CurrentLyrics));
+                    OnPropertyChanged(nameof(NextLyrics));
                 }
                 _mutex.ReleaseMutex();
 
