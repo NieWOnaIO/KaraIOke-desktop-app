@@ -1,4 +1,5 @@
 using KaraIOke.Models;
+using SubtitlesParser.Classes;
 
 namespace KaraIOke.Services.Download;
 
@@ -6,6 +7,8 @@ public class SongAudio
 {
     public Stream Vocals { get; set; }
     public Stream NoVocals { get; set; }
+
+    public List<SubtitleItem> Lyrics { get; set; }
 }
 
 public class DownloadService : IDownloadService
