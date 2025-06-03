@@ -1,7 +1,7 @@
 using KaraIOke.Models;
 using System.Collections.Generic;
 
-namespace KaraIOke.Services.Search;
+namespace KaraIOke.Services.History;
 
 public interface IHistoryService
 {
