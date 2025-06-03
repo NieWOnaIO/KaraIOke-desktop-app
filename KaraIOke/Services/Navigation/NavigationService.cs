@@ -2,6 +2,7 @@ using KaraIOke.Views;
 using KaraIOke.ViewModels;
 using System.Diagnostics.CodeAnalysis;
 using KaraIOke.Models;
+using KaraIOke.Services.History;
 
 namespace KaraIOke.Services.Navigation;
 
@@ -46,6 +47,9 @@ public class NavigationService
     public async Task PushPlayer(Song song, Playlist? playlist = null)
     {
         initData();
+
+        var historyService = _serviceProvider.GetService<IHistoryService>();
+        historyService.Add(song);
 
         var playerViewModel = _serviceProvider.GetService<PlayerViewModel>() ?? throw new InvalidOperationException("PlayerViewModel is not registered");
         if (song.url != playerViewModel.Song.url && playerViewModel.GetTokenSource() is var source && source is not null)
