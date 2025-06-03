@@ -1,5 +1,5 @@
 using KaraIOke.Models;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace KaraIOke.Services.History;
 
@@ -14,4 +14,11 @@ public class HistoryService : IHistoryService
     }
 
     public IReadOnlyList<Song> GetAll() => _history.AsReadOnly();
+    public Playlist GetAsPlaylist()
+    {
+        return new Playlist(
+            "History",
+            new ObservableCollection<Song>(_history)
+        );
+    }
 }

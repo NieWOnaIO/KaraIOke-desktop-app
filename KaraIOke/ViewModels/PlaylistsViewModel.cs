@@ -23,14 +23,18 @@ public class PlaylistsViewModel : AbstractPlaylistViewModel
         DeletePlaylist = new Command<string>(
             execute: async (playlistName) =>
             {
-                if (!string.IsNullOrEmpty(playlistName))
+                if (playlistName == "History")
                 {
-                    await Task.Run(() =>
-                    {
-                        _appEnvironmentService.PlaylistService.DeletePlaylist(playlistName);
-                        loadData();
-                    });
+                    return;
                 }
+                if (!string.IsNullOrEmpty(playlistName))
+                    {
+                        await Task.Run(() =>
+                        {
+                            _appEnvironmentService.PlaylistService.DeletePlaylist(playlistName);
+                            loadData();
+                        });
+                    }
             }
         );
     }

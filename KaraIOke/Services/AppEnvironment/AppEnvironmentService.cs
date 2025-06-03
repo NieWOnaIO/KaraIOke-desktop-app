@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using KaraIOke.Services.Download;
+using KaraIOke.Services.History;
 using KaraIOke.Services.Playlists;
 using KaraIOke.Services.Search;
 
@@ -15,8 +16,9 @@ public class AppEnvironmentService
 
     private readonly IDownloadService _downloadService;
     private readonly IDownloadService _downloadMockService;
+    private readonly IHistoryService _historyService;
 
-    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService, IPlaylistService playlistMockService, IPlaylistService playlistService, IDownloadService downloadMockService, IDownloadService downloadService)
+    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService, IPlaylistService playlistMockService, IPlaylistService playlistService, IDownloadService downloadMockService, IDownloadService downloadService, IHistoryService historyService)
     {
         _searchService = searchService;
         _searchMockService = searchMockService;
@@ -27,12 +29,15 @@ public class AppEnvironmentService
         _downloadService = downloadService;
         _downloadMockService = downloadMockService;
 
+        _historyService = historyService;
+
         updateDependencies(false);
     }
 
     public ISearchService SearchService { get; private set; }
     public IPlaylistService PlaylistService { get; private set; }
     public IDownloadService DownloadService { get; private set; }
+    public IHistoryService HistoryService => _historyService;
 
     [MemberNotNull(nameof(SearchService), nameof(PlaylistService), nameof(DownloadService))]
     public void updateDependencies(bool useMockServices)

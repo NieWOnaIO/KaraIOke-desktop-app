@@ -63,8 +63,15 @@ public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
 
     public void loadData(string playlistName)
     {
-        Playlist = _appEnvironmentService.PlaylistService.GetPlaylist(playlistName);
-
+        if (playlistName == "History")
+        {
+            Playlist = _appEnvironmentService.HistoryService.GetAsPlaylist();
+        }
+        else
+        {
+            Playlist = _appEnvironmentService.PlaylistService.GetPlaylist(playlistName);
+        }
+        
         OnPropertyChanged(nameof(Playlist));
         OnPropertyChanged(nameof(Songs));
     }
