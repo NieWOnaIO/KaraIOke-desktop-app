@@ -21,4 +21,8 @@ public class HistoryService : IHistoryService
             new ObservableCollection<Song>(_history)
         );
     }
+    public void RemoveSong(Song song)
+    {
+        _history.Remove(song);
+    }
 }

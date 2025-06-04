@@ -7,4 +7,5 @@ public interface IHistoryService
     void Add(Song song);
     public IReadOnlyList<Song> GetAll();
     Playlist GetAsPlaylist();
+    public void RemoveSong(Song song);
 }

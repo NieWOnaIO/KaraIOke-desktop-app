@@ -34,9 +34,8 @@ public class AppEnvironmentService
     public ISearchService SearchService { get; private set; }
     public IPlaylistService PlaylistService { get; private set; }
     public IDownloadService DownloadService { get; private set; }
-    public IHistoryService HistoryService { get; private set; }
 
-    [MemberNotNull(nameof(SearchService), nameof(PlaylistService), nameof(DownloadService), nameof(HistoryService))]
+    [MemberNotNull(nameof(SearchService), nameof(PlaylistService), nameof(DownloadService))]
     public void updateDependencies(bool useMockServices)
     {
         if (useMockServices)
