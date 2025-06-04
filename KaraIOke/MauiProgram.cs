@@ -42,8 +42,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<AppEnvironmentService>(
             serviceProvider =>
             {
-                var historyService = serviceProvider.GetService<IHistoryService>() ?? throw new InvalidOperationException("HistoryService not registered");
-                var aes = new AppEnvironmentService(new SearchMockService(), new SearchService(), new PlaylistMockService(), new PlaylistService(), new DownloadMockService(), new DownloadService(), historyService);
+                var aes = new AppEnvironmentService(new SearchMockService(), new SearchService(), new PlaylistMockService(), new PlaylistService(), new DownloadMockService(), new DownloadService());
 
                 aes.updateDependencies(true);
                 return aes;

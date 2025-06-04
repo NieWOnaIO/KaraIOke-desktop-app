@@ -16,9 +16,8 @@ public class AppEnvironmentService
 
     private readonly IDownloadService _downloadService;
     private readonly IDownloadService _downloadMockService;
-    private readonly IHistoryService _historyService;
 
-    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService, IPlaylistService playlistMockService, IPlaylistService playlistService, IDownloadService downloadMockService, IDownloadService downloadService, IHistoryService historyService)
+    public AppEnvironmentService(ISearchService searchMockService, ISearchService searchService, IPlaylistService playlistMockService, IPlaylistService playlistService, IDownloadService downloadMockService, IDownloadService downloadService)
     {
         _searchService = searchService;
         _searchMockService = searchMockService;
@@ -29,17 +28,15 @@ public class AppEnvironmentService
         _downloadService = downloadService;
         _downloadMockService = downloadMockService;
 
-        _historyService = historyService;
-
         updateDependencies(false);
     }
 
     public ISearchService SearchService { get; private set; }
     public IPlaylistService PlaylistService { get; private set; }
     public IDownloadService DownloadService { get; private set; }
-    public IHistoryService HistoryService => _historyService;
+    public IHistoryService HistoryService { get; private set; }
 
-    [MemberNotNull(nameof(SearchService), nameof(PlaylistService), nameof(DownloadService))]
+    [MemberNotNull(nameof(SearchService), nameof(PlaylistService), nameof(DownloadService), nameof(HistoryService))]
     public void updateDependencies(bool useMockServices)
     {
         if (useMockServices)
