@@ -48,6 +48,9 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         get => _song?.title ?? string.Empty;
     }
 
+    private double _vocalsVolume = 1.0;
+    private double _audioVolume = 1.0;
+
     private IAudioPlayer? _noVocalsPlayer;
     private IAudioPlayer? _vocalsPlayer;
     private List<SubtitleItem> _lyrics = [];
@@ -175,6 +178,17 @@ public partial class PlayerViewModel : INotifyPropertyChanged
     {
         resetState();
         _song = song;
+        Task.Run(async () =>
+        {
+            var lyrics = await _downloadService.waitForLyrics(_song);
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
+            _mutex.WaitOne();
+            _lyrics = lyrics;
+            _mutex.ReleaseMutex();
+        });
+
         OnPropertyChanged(nameof(SongName));
 
         _playlist = playlist;
@@ -211,6 +225,10 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(ForwardButtonEnabled));
         OnPropertyChanged(nameof(CurrentLyrics));
         OnPropertyChanged(nameof(NextLyrics));
+
+
+        _vocalsPlayer.Volume = _vocalsVolume;
+        _noVocalsPlayer.Volume = _audioVolume;
     }
 
     public PlayerViewModel(IServiceProvider serviceProvider)
@@ -329,6 +347,7 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         if (_vocalsPlayer is not null)
         {
             _vocalsPlayer.Volume = value;
+            _vocalsVolume = value;
         }
     }
 
@@ -337,6 +356,7 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         if (_noVocalsPlayer is not null)
         {
             _noVocalsPlayer.Volume = value;
+            _audioVolume = value;
         }
     }
 
