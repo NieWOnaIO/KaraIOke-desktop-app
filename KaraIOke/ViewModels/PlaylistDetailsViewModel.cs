@@ -81,7 +81,7 @@ public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
         {
             Playlist = _appEnvironmentService.PlaylistService.GetPlaylist(playlistName);
         }
-        
+
         OnPropertyChanged(nameof(Playlist));
         OnPropertyChanged(nameof(Songs));
     }

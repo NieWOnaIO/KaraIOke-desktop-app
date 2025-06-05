@@ -13,7 +13,6 @@ public class HistoryService : IHistoryService
         _history.Add(song);
     }
 
-    public IReadOnlyList<Song> GetAll() => _history.AsReadOnly();
     public Playlist GetAsPlaylist()
     {
         return new Playlist(
@@ -21,6 +20,7 @@ public class HistoryService : IHistoryService
             new ObservableCollection<Song>(_history)
         );
     }
+
     public void RemoveSong(Song song)
     {
         _history.Remove(song);

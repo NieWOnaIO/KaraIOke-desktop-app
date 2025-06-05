@@ -28,13 +28,13 @@ public class PlaylistsViewModel : AbstractPlaylistViewModel
                     return;
                 }
                 if (!string.IsNullOrEmpty(playlistName))
+                {
+                    await Task.Run(() =>
                     {
-                        await Task.Run(() =>
-                        {
-                            _appEnvironmentService.PlaylistService.DeletePlaylist(playlistName);
-                            loadData();
-                        });
-                    }
+                        _appEnvironmentService.PlaylistService.DeletePlaylist(playlistName);
+                        loadData();
+                    });
+                }
             }
         );
     }
