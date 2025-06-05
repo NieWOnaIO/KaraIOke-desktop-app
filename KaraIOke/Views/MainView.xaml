@@ -21,7 +21,7 @@
 
         <Label
             Grid.Row="1"
-            Text="KaraIOke"
+            Text="KaraOffKey"
             TextColor="#AAAAAA"
             FontSize="40"
             Style="{StaticResource Headline}"
