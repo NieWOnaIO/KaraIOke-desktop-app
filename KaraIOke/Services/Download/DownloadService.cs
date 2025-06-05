@@ -1,4 +1,6 @@
+using System.Text;
 using KaraIOke.Models;
+using SubtitlesParser.Classes;
 
 namespace KaraIOke.Services.Download;
 
@@ -6,11 +8,14 @@ public class SongAudio
 {
     public Stream Vocals { get; set; }
     public Stream NoVocals { get; set; }
+
+    public List<SubtitleItem> Lyrics { get; set; } = [];
 }
 
 public class DownloadService : IDownloadService
 {
     private Dictionary<string, Task> _songDownloads = new();
+    private Dictionary<string, string> _songHashes = new();
     private Dictionary<string, SongAudio> _songAudios = new();
 
     private HttpClient _client = new HttpClient();
@@ -21,7 +26,9 @@ public class DownloadService : IDownloadService
 
     public SongAudio GetSongAudio(Song song)
     {
-        return _songAudios[song.hash];
+        if (_songHashes.ContainsKey(song.url))
+            song.hash = _songHashes[song.url];
+        return _songAudios[song.url];
     }
 
     public Task QueryDownload(Song song)
@@ -41,6 +48,7 @@ public class DownloadService : IDownloadService
         var response = await _client.PostAsync($"v1/process_song?link={song.url}", null);
         var songID = await response.Content.ReadAsAsync<SongID>();
         song.hash = songID.song_id;
+        _songHashes.Add(song.url, song.hash);
 
         await waitForSong(song);
     }
@@ -52,14 +60,39 @@ public class DownloadService : IDownloadService
         return metaData.ready;
     }
 
+    private async Task<bool> pollLyrics(Song song)
+    {
+        var response = await _client.GetAsync($"v1/lyricsinfo/{song.hash}");
+        var metaData = await response.Content.ReadAsAsync<MetaData>();
+        return metaData.ready;
+    }
+
     private async Task<Stream> getAudio(Song song, string path)
     {
         var response = await _client.GetAsync($"v1/{path}/{song.hash}");
         return await response.Content.ReadAsStreamAsync();
     }
 
+    public async Task<List<SubtitleItem>> waitForLyrics(Song song)
+    {
+        if (_songHashes.ContainsKey(song.url))
+            song.hash = _songHashes[song.url];
+        while (!await pollLyrics(song))
+        {
+            Thread.Sleep(1000);
+        }
+
+
+        var lyricsStream = getAudio(song, "lyrics");
+
+        var parser = new SubtitlesParser.Classes.Parsers.SrtParser();
+        return parser.ParseStream(await lyricsStream, Encoding.UTF8);
+    }
+
     private async Task waitForSong(Song song)
     {
+        if (_songHashes.ContainsKey(song.url))
+            song.hash = _songHashes[song.url];
         while (!await pollSong(song))
         {
             Thread.Sleep(1000);
@@ -67,7 +100,6 @@ public class DownloadService : IDownloadService
 
         var vocals = getAudio(song, "song_vocals");
         var noVocals = getAudio(song, "song_no_vocals");
-
-        _songAudios.Add(song.hash, new SongAudio { Vocals = await vocals, NoVocals = await noVocals });
+        _songAudios.Add(song.url, new SongAudio { Vocals = await vocals, NoVocals = await noVocals });
     }
 }
