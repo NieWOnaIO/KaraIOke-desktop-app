@@ -16,7 +16,7 @@ public class HistoryService : IHistoryService
     public Playlist GetAsPlaylist()
     {
         return new Playlist(
-            "History",
+            "Historia",
             new ObservableCollection<Song>(_history)
         );
     }

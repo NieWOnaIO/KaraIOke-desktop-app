@@ -55,7 +55,7 @@ public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
                     await Task.Run(() =>
                     {
                         var playlist = Playlist ?? throw new ArgumentException("null Playlist");
-                        if (Playlist.Name == "History")
+                        if (Playlist.Name == "Historia")
                         {
                             _historyService.RemoveSong(song);
                         }
@@ -73,7 +73,7 @@ public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
 
     public void loadData(string playlistName)
     {
-        if (playlistName == "History")
+        if (playlistName == "Historia")
         {
             Playlist = _historyService.GetAsPlaylist();
         }

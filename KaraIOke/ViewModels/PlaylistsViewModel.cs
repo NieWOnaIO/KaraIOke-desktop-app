@@ -23,7 +23,7 @@ public class PlaylistsViewModel : AbstractPlaylistViewModel
         DeletePlaylist = new Command<string>(
             execute: async (playlistName) =>
             {
-                if (playlistName == "History")
+                if (playlistName == "Historia")
                 {
                     return;
                 }

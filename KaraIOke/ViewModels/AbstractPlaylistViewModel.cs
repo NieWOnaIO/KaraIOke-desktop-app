@@ -36,9 +36,9 @@ public abstract class AbstractPlaylistViewModel : INotifyPropertyChanged
     {
         var names = _appEnvironmentService.PlaylistService.GetAllPlaylistsNames().ToList();
 
-        if (!names.Contains("History"))
+        if (!names.Contains("Historia"))
         {
-            names.Add("History");
+            names.Add("Historia");
         }
 
         PlaylistsNames = new ObservableCollection<string>(names);
