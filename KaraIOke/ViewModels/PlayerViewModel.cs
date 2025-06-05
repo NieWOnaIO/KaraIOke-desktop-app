@@ -85,7 +85,7 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         if (i == _lyrics.Count - 1)
             return _lyrics[i].Lines[0];
 
-        return _lyrics[i].Lines[0] + "\n" + _lyrics[i+1].Lines[0];
+        return _lyrics[i].Lines[0] + "\n" + _lyrics[i + 1].Lines[0];
     }
 
     public string CurrentLyrics

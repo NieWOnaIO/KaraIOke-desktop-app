@@ -14,7 +14,7 @@ public class DownloadMockService : IDownloadService
         var vocalsStream = FileSystem.OpenAppPackageFileAsync("vocals.mp3");
         var noVocalsStream = FileSystem.OpenAppPackageFileAsync("no_vocals.mp3");
 
-        _songAudio = new SongAudio { NoVocals = await noVocalsStream, Vocals = await vocalsStream};
+        _songAudio = new SongAudio { NoVocals = await noVocalsStream, Vocals = await vocalsStream };
 
         // Thread.Sleep(10000);
     }
