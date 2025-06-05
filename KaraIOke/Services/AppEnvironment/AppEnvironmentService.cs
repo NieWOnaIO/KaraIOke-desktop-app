@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using KaraIOke.Services.Download;
+using KaraIOke.Services.History;
 using KaraIOke.Services.Playlists;
 using KaraIOke.Services.Search;
 

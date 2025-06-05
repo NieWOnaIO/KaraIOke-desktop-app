@@ -4,6 +4,7 @@ using KaraIOke.Services.Navigation;
 using System.Windows.Input;
 using KaraIOke.Models;
 using System.Collections.ObjectModel;
+using KaraIOke.Services.History;
 
 namespace KaraIOke.ViewModels;
 
@@ -11,6 +12,7 @@ public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
 {
     protected readonly NavigationService _navigationService;
     protected readonly AppEnvironmentService _appEnvironmentService;
+    protected readonly IHistoryService _historyService;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -29,6 +31,7 @@ public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
     {
         _navigationService = serviceProvider.GetService<NavigationService>() ?? throw new InvalidOperationException("NavigationService is not registered.");
         _appEnvironmentService = serviceProvider.GetService<AppEnvironmentService>() ?? throw new InvalidOperationException("AppEnvironmentService is not registered.");
+        _historyService = serviceProvider.GetService<IHistoryService>() ?? throw new InvalidOperationException("HistoryService is not registered.");
 
         GoToMain = new Command(
             execute: async () =>
@@ -52,7 +55,14 @@ public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
                     await Task.Run(() =>
                     {
                         var playlist = Playlist ?? throw new ArgumentException("null Playlist");
-                        _appEnvironmentService.PlaylistService.DeleteSong(playlist.Name, song);
+                        if (Playlist.Name == "Historia")
+                        {
+                            _historyService.RemoveSong(song);
+                        }
+                        else
+                        {
+                            _appEnvironmentService.PlaylistService.DeleteSong(playlist.Name, song);
+                        }
                         loadData(Playlist.Name);
                     });
 
@@ -63,7 +73,14 @@ public partial class PlaylistDetailsViewModel : INotifyPropertyChanged
 
     public void loadData(string playlistName)
     {
-        Playlist = _appEnvironmentService.PlaylistService.GetPlaylist(playlistName);
+        if (playlistName == "Historia")
+        {
+            Playlist = _historyService.GetAsPlaylist();
+        }
+        else
+        {
+            Playlist = _appEnvironmentService.PlaylistService.GetPlaylist(playlistName);
+        }
 
         OnPropertyChanged(nameof(Playlist));
         OnPropertyChanged(nameof(Songs));
