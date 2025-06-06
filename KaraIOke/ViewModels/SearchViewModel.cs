@@ -28,7 +28,7 @@ public partial class SearchViewModel : ISearchBar
             execute: async (object song) =>
             {
                 Task.Run(() => _appEnvironmentService.DownloadService.QueryDownload((Song)song));
-                await _navigationService.PushAdding();
+                await _navigationService.PushAdding((Song)song);
             }
         );
     }

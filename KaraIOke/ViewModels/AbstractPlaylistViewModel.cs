@@ -32,13 +32,18 @@ public abstract class AbstractPlaylistViewModel : INotifyPropertyChanged
         PlaylistsNames = new ObservableCollection<string>();
     }
 
-    public void loadData()
+    public void loadData(bool addHistory = false)
     {
         var names = _appEnvironmentService.PlaylistService.GetAllPlaylistsNames().ToList();
 
-        if (!names.Contains("Historia"))
+        if (addHistory)
         {
-            names.Add("Historia");
+            if (!names.Contains("Historia"))
+            {
+                names.Add("Historia");
+            }
+
+            names.Insert(0, "Dodaj Playlistę");
         }
 
         PlaylistsNames = new ObservableCollection<string>(names);

@@ -40,4 +40,8 @@ public class PlaylistMockService : IPlaylistService
         ObservableCollection<Song> songs = playlist.Songs;
         songs.Remove(song);
     }
+
+    public void AddPlaylist(Playlist playlist) {}
+
+    public void AddSong(string playlistName, Song song) {}
 }

@@ -28,11 +28,12 @@
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
                 <Grid HeightRequest="{Binding x:DataType=CollectionView, Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=Height}">
-                    <ActivityIndicator IsRunning="true"
+                                       <Label
+                                        Text="Brak piosenek"
+                                        FontSize="32"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
-                                       WidthRequest="200"
-                                       HeightRequest="200"/>
+                                       />
                 </Grid>
             </CollectionView.EmptyView>
         </CollectionView>
