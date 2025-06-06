@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using KaraIOke.Services.Playlists;
 
 namespace KaraIOke.ViewModels;
 
@@ -15,7 +16,17 @@ public class PlaylistsViewModel : AbstractPlaylistViewModel
             {
                 if (!string.IsNullOrEmpty(playlistName))
                 {
-                    await _navigationService.PushPlaylist(playlistName);
+                    if (playlistName == "Dodaj Playlistę")
+                    {
+                        var count = _appEnvironmentService.PlaylistService.GetAllPlaylistsNames().Count;
+                        _appEnvironmentService.PlaylistService.AddPlaylist(new Models.Playlist($"Playlista {count}", []));
+
+                        loadData();
+                    }
+                    else
+                    {
+                        await _navigationService.PushPlaylist(playlistName);
+                    }
                 }
             }
         );
@@ -23,7 +34,7 @@ public class PlaylistsViewModel : AbstractPlaylistViewModel
         DeletePlaylist = new Command<string>(
             execute: async (playlistName) =>
             {
-                if (playlistName == "Historia")
+                if (playlistName == "Historia" || playlistName == "Dodaj Playlistę")
                 {
                     return;
                 }

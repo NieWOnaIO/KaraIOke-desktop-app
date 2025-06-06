@@ -85,18 +85,19 @@ public class NavigationService
         initData();
 
         var playlistsViewModel = _serviceProvider.GetService<PlaylistsViewModel>() ?? throw new InvalidOperationException("PlaylistsViewModel is not registered");
-        playlistsViewModel.loadData();
+        playlistsViewModel.loadData(true);
 
         var playlistListView = _serviceProvider.GetService<PlaylistsView>();
         await _navigation.PushAsync(playlistListView);
     }
 
-    public async Task PushAdding()
+    public async Task PushAdding(Song song)
     {
         initData();
 
         var addingViewModel = _serviceProvider.GetService<AddingViewModel>() ?? throw new InvalidOperationException("AddingViewModel is not recognized");
         addingViewModel.loadData();
+        addingViewModel.Song = song;
 
         var addingView = _serviceProvider.GetService<AddingView>();
         await _navigation.PushAsync(addingView);

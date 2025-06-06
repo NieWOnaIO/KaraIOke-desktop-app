@@ -16,7 +16,7 @@
                 CornerRadius="0"
                 FontSize="32"
                 Text="{Binding .}"
-                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PlaylistsViewModel}}, Path=GoToPlaylist, x:DataType=viewmodels:PlaylistsViewModel}"
+                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AddingViewModel}}, Path=AddSongToPlaylist, x:DataType=viewmodels:AddingViewModel}"
                 CommandParameter="{Binding .}"/>
         </Grid>
 </ContentView>
