@@ -21,6 +21,7 @@ public class AddingViewModel : AbstractPlaylistViewModel
 
                 var appEnv = serviceProvider.GetService<AppEnvironmentService>();
                 appEnv.PlaylistService.AddSong((string)playlistName, Song);
+                appEnv.DownloadService.SaveSong(Song);
             }
         );
     }

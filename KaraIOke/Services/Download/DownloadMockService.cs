@@ -33,5 +33,9 @@ public class DownloadMockService : IDownloadService
 
         return lyrics;
     }
+    public Task SaveSong(Song song)
+    {
+        return Task.FromResult(0);
+    }
 
 }

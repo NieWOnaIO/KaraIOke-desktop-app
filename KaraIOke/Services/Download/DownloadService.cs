@@ -1,6 +1,7 @@
 using System.Text;
 using KaraIOke.Models;
 using SubtitlesParser.Classes;
+using System.Security.Cryptography;
 
 namespace KaraIOke.Services.Download;
 
@@ -17,6 +18,7 @@ public class DownloadService : IDownloadService
     private Dictionary<string, Task> _songDownloads = new();
     private Dictionary<string, string> _songHashes = new();
     private Dictionary<string, SongAudio> _songAudios = new();
+    private HashAlgorithm algorithm = SHA256.Create();
 
     private HttpClient _client = new HttpClient();
     public DownloadService()
@@ -45,6 +47,22 @@ public class DownloadService : IDownloadService
 
     private async Task downloadFlow(Song song)
     {
+        var filePath = Path.Combine(
+            FileSystem.Current.AppDataDirectory,
+            song.url.Remove(0, "https:\\www.youtube.com\\watch?v=".Count())
+        );
+        if (File.Exists(filePath))
+        {
+            var vocalsPath = Path.Combine(filePath, "vocals.mp3");
+            var noVocalsPath = Path.Combine(filePath, "no_vocals.mp3");
+
+            var vocalsStream = FileSystem.OpenAppPackageFileAsync(vocalsPath);
+            var noVocalsStream = FileSystem.OpenAppPackageFileAsync(noVocalsPath);
+
+            _songAudios.Add(song.url, new SongAudio { Vocals = await vocalsStream, NoVocals = await noVocalsStream });
+            return;
+        }
+
         var response = await _client.PostAsync($"v1/process_song?link={song.url}", null);
         var songID = await response.Content.ReadAsAsync<SongID>();
         song.hash = songID.song_id;
@@ -77,16 +95,39 @@ public class DownloadService : IDownloadService
     {
         if (_songHashes.ContainsKey(song.url))
             song.hash = _songHashes[song.url];
+
+
+        var filePath = Path.Combine(
+            FileSystem.Current.AppDataDirectory,
+            song.url.Remove(0, "https:\\www.youtube.com\\watch?v=".Count())
+        );
+        var parser = new SubtitlesParser.Classes.Parsers.SrtParser();
+
+        if (File.Exists(Path.Join(filePath, "lyrics.srt")))
+        {
+            var _lyricsPath = Path.Combine(filePath, "lyrics.srt");
+
+            var lyricsStream1 = FileSystem.OpenAppPackageFileAsync(_lyricsPath);
+            return parser.ParseStream(await lyricsStream1, Encoding.UTF8);
+        }
+
         while (!await pollLyrics(song))
         {
             Thread.Sleep(1000);
         }
 
+        var lyricsStream = await getAudio(song, "lyrics");
 
-        var lyricsStream = getAudio(song, "lyrics");
+        Directory.CreateDirectory(filePath);
+        var lyricsPath = Path.Combine(filePath, "lyrics.srt");
 
-        var parser = new SubtitlesParser.Classes.Parsers.SrtParser();
-        return parser.ParseStream(await lyricsStream, Encoding.UTF8);
+        using (var file = File.Create(lyricsPath))
+        {
+            lyricsStream.Seek(0, SeekOrigin.Begin);
+            lyricsStream.CopyTo(file);
+        }
+
+        return parser.ParseStream(lyricsStream, Encoding.UTF8);
     }
 
     private async Task waitForSong(Song song)
@@ -101,5 +142,32 @@ public class DownloadService : IDownloadService
         var vocals = getAudio(song, "song_vocals");
         var noVocals = getAudio(song, "song_no_vocals");
         _songAudios.Add(song.url, new SongAudio { Vocals = await vocals, NoVocals = await noVocals });
+    }
+
+    public async Task SaveSong(Song song)
+    {
+        await QueryDownload(song);
+
+        var audio = GetSongAudio(song);
+        var filePath = Path.Combine(
+            FileSystem.Current.AppDataDirectory,
+            song.url.Remove(0, "https:\\www.youtube.com\\watch?v=".Count())
+        );
+
+
+        Directory.CreateDirectory(filePath);
+        var vocalsPath = Path.Combine(filePath, "vocals.mp3");
+        var noVocalsPath = Path.Combine(filePath, "no_vocals.mp3");
+
+        using (var file = File.Create(vocalsPath))
+        {
+            audio.Vocals.Seek(0, SeekOrigin.Begin);
+            audio.Vocals.CopyTo(file);
+        }
+        using (var file = File.Create(noVocalsPath))
+        {
+            audio.NoVocals.Seek(0, SeekOrigin.Begin);
+            audio.NoVocals.CopyTo(file);
+        }
     }
 }
