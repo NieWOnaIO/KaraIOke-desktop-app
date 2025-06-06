@@ -149,7 +149,6 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         AudioPosition = 0.0;
         AudioLength = 0.0;
 
-        _lyrics = [];
         OnPropertyChanged(nameof(CurrentLyrics));
         OnPropertyChanged(nameof(NextLyrics));
     }
@@ -180,6 +179,7 @@ public partial class PlayerViewModel : INotifyPropertyChanged
         _song = song;
         Task.Run(async () =>
         {
+            _lyrics = [];
             var lyrics = await _downloadService.waitForLyrics(_song);
             if (cancellationToken.IsCancellationRequested)
                 return;
